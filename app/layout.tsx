@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   title: "Levo бытовые техники",
   description: "Бытовые техникн для вашего дома ",
   icons: {
-    icon: "/logo.svg",
+    icon: "/blackLogo.svg",
 
   },
 };
