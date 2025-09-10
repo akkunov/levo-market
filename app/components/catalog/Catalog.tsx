@@ -89,7 +89,6 @@ export const mockCategories: Category[] = [
 
 
 export const Catalog:FC = () => {
-    console.log(mockCategories);
     return (
         <div className={`flex flex-row columns-3 gap-x-4`}>
             <Container className={`flex flex-col text-start w-full`}>
@@ -103,8 +102,8 @@ export const Catalog:FC = () => {
                         {mockCategories.map((items) => {
                         return (
                             <div key={items.name} className={`w-full flex flex-col`}>
-                                <h2 className={`my-4 font-bold text-2xl mx-2`}>{items.name}</h2>
-                                <div className={`grid grid-cols-3 gap-6 m-x-2`}>
+                                <h2 className={`my-4 font-bold text-2xl mx-2 `}>{items.name}</h2>
+                                <div className={`grid grid-cols-1 gap-3  sm:grid-cols-2 lg:grid-cols-3`}>
                                     {items.products.map((items) => (
                                         <div key={items.id} className={`m-2`}>
                                             <WashMachine image={items.image} name={items.name} description={items.description} />
