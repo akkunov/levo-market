@@ -3,6 +3,7 @@ import WashMachine from "@/app/components/cards/washMachine/WashMachine";
 
 import Container from "../container/Container";
 import {Filter} from "@/app/components/filter/Filter";
+import Head from "next/head";
 
 export type Product = {
     id: string;
@@ -88,36 +89,69 @@ export const mockCategories: Category[] = [
 ];
 
 
-export const Catalog:FC = () => {
+export const Catalog: FC = () => {
+    // Генерация JSON-LD для всех товаров
+    const productsSchema = mockCategories.flatMap(category =>
+        category.products.map(product => ({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: product.name,
+            image: product.image,
+            description: product.description,
+            brand: {
+                "@type": "Brand",
+                name: "LEVO"
+            },
+            offers: {
+                "@type": "Offer",
+                priceCurrency: "KGS",
+                price: product.price || "0", // подставь реальную цену
+                availability: "https://schema.org/InStock"
+            }
+        }))
+    );
+
     return (
-        <div className={`flex flex-row columns-3 gap-x-4`}>
-            <Container className={`flex flex-col text-start w-full`}>
-                <h1 className={`text-4xl text-black font-[var(--font-porsche-next)]`}>Обзор моделей</h1>
-                <div className={`mt-10 flex flex-row gap-x-8`}>
+        <section id="hero-catalog" className="flex flex-row columns-3 gap-x-4">
+            <Head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(productsSchema) }}
+                />
+            </Head>
+
+            <Container className="flex flex-col text-start w-full">
+                <h1 className="text-4xl text-black font-[var(--font-porsche-next)]">
+                    Купить бытовую технику LEVO в Бишкеке — каталог моделей
+                </h1>
+                <div className="mt-10 flex flex-row gap-x-8">
                     <div>
-                        <h3 className={`my-4 font-bold text-base`} >Модели </h3>
-                        <Filter/>
+                        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>
+                        <Filter />
                     </div>
-                    <div className={`flex flex-col flex-1`}>
-                        {mockCategories.map((items) => {
-                        return (
-                            <div key={items.name} className={`w-full flex flex-col`}>
-                                <h2 className={`my-4 font-bold text-2xl mx-2 `}>{items.name}</h2>
-                                <div className={`grid grid-cols-1 gap-3  sm:grid-cols-2 lg:grid-cols-3`}>
-                                    {items.products.map((items) => (
-                                        <div key={items.id} className={`m-2`}>
-                                            <WashMachine image={items.image} name={items.name} description={items.description} />
+                    <div className="flex flex-col flex-1">
+                        {mockCategories.map((category) => (
+                            <div key={category.name} className="w-full flex flex-col">
+                                <h2 className="my-4 font-bold text-2xl mx-2">
+                                    {category.name} LEVO — цены и характеристики
+                                </h2>
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                                    {category.products.map((product) => (
+                                        <div key={product.id} className="m-2">
+                                            <WashMachine
+                                                image={product.image}
+                                                name={product.name}
+                                                description={product.description}
+                                                alt={`Купить ${product.name} LEVO в Бишкеке — ${product.description}`}
+                                            />
                                         </div>
                                     ))}
                                 </div>
-
                             </div>
-                        )
-                    } )}
+                        ))}
                     </div>
                 </div>
             </Container>
-
-        </div>
-    )
-}
+        </section>
+    );
+};

@@ -5,16 +5,17 @@ type Props = {
     image: string;
     name: string;
     description?: string;
+    alt: string;
 }
 
-const WashMachine: FC<Props> = ({image, name}) => {
+const WashMachine: FC<Props> = ({image, name,alt}) => {
     return (
         <div className="min-w-[200px] max-w-[320px] w-full flex flex-col bg-white gap-2 rounded-xl p-3 font-[var(--font-next)]">
             {/* Контейнер для изображения с соотношением сторон */}
             <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
                 <Image
                     src={image}
-                    alt="Стиральная машина Levo WashLite 600"
+                    alt={alt}
                     fill
                     className="object-contain"
                 />
