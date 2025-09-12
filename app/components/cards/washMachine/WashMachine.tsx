@@ -10,7 +10,7 @@ type Props = {
 
 const WashMachine: FC<Props> = ({image, name,alt}) => {
     return (
-        <div className="min-w-[200px] max-w-[320px] w-full flex flex-col bg-white gap-2 rounded-xl p-3 font-[var(--font-next)]">
+        <div className="md:min-w-[150px] lg:min-w-[200px] max-w-[320px] w-full flex flex-col bg-white gap-1 lg:gap-2 p-1 md:p-3 rounded-xl  font-[var(--font-next)]">
             {/* Контейнер для изображения с соотношением сторон */}
             <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden">
                 <Image

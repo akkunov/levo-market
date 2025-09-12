@@ -125,17 +125,17 @@ export const Catalog: FC = () => {
                     Купить бытовую технику LEVO в Бишкеке — каталог моделей
                 </h1>
                 <div className="mt-10 flex flex-row gap-x-8">
-                    <div>
+                    <div className={`hidden md:block`}>
                         <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>
                         <Filter />
                     </div>
-                    <div className="flex flex-col flex-1">
+                    <div className="sm:items-center flex-col flex-1">
                         {mockCategories.map((category) => (
                             <div key={category.name} className="w-full flex flex-col">
                                 <h2 className="my-4 font-bold text-2xl mx-2">
                                     {category.name} LEVO — цены и характеристики
                                 </h2>
-                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                                <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                     {category.products.map((product) => (
                                         <div key={product.id} className="m-2">
                                             <WashMachine

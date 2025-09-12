@@ -4,6 +4,7 @@ import "./globals.css";
 import {Header} from "@/app/components/header/Header";
 import localFont from "next/font/local";
 import { ReactNode } from "react";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${porscheNext.variable} antialiased`}
       >
