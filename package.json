@@ -7,7 +7,9 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "tailwind:build": "tailwindcss -i ./src/styles/globals.css -o ./public/tailwind.css --minify",
+    "tailwind:watch": "tailwindcss -i ./src/styles/globals.css -o ./public/tailwind.css --watch"
   },
   "dependencies": {
     "next": "15.5.2",

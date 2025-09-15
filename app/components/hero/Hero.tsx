@@ -3,10 +3,11 @@
 import Head from "next/head";
 import {useState} from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
     const [showVideo, setShowVideo] = useState(true);
-
+    setShowVideo(true)
 
     return (
         <>
@@ -67,8 +68,11 @@ export default function Hero() {
                 {/* Контент поверх */}
                 <div className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
                     <div>
-                        <h1 className="text-4xl md:text-6xl font-bold">Добро пожаловать в LEVO</h1>
-                        <p className="mt-4 text-lg md:text-xl">Умная техника для вашего дома</p>
+                        <h1 className="text-2xl md:text-6xl font-bold text-start">Добро пожаловать в LEVO</h1>
+                        <p className="mt-4 text-md md:text-xl text-start">Умная техника для вашего дома</p>
+                        <Link rel="stylesheet" href="#" className={`rounded-sm p-2 mt-4 bg-[#1D1D1D] text-white block active:bg-[#1D1D1D]/80 w-32`}>
+                            Подробнее...
+                        </Link>
                     </div>
                 </div>
             </div>
