@@ -1,9 +1,13 @@
-import Image from "next/image";
-import Container from "@/app/components/container/Container";
-import Link from "next/link";
+'use client';
+
 import Head from "next/head";
+import {useState} from "react";
+import Image from "next/image";
 
 export default function Hero() {
+    const [showVideo, setShowVideo] = useState(true);
+
+
     return (
         <>
             <Head>
@@ -38,31 +42,36 @@ export default function Hero() {
                 />
             </Head>
 
-            <section className="relative h-screen w-full">
-                <Image
-                    src="/hero.png"
-                    alt="LEVO — умная бытовая техника для вашего дома"
-                    fill
-                    priority
-                    className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black-300/5" />
-                <Container className="relative z-10 flex h-full items-center justify-start px-10">
-                    <div className="max-w-xl text-white">
-                        <h1 className="text-4xl font-bold">
-                            LEVO — умная техника для вашего дома
-                        </h1>
-                        <p className="mt-4 text-lg text-gray-200">
-                            Современные решения, которые упрощают жизнь каждый день.
-                        </p>
-                        <Link href={{ pathname: '/', hash: 'hero-catalog' }} scroll={true}>
-                            <button className="px-6 py-3 bg-[#1D1D1D] text-white font-semibold rounded-lg hover:bg-gray-800 transition">
-                                Смотреть каталог
-                            </button>
-                        </Link>
+            <div className="relative w-full h-screen overflow-hidden">
+                {!showVideo ? (
+                    <Image
+                        src="/hero.png"
+                        alt="Hero"
+                        className="w-full h-full object-cover"
+                        fill
+                        loading={"lazy"}
+
+                    />
+                ) : (
+                    <video
+                        autoPlay
+                        muted
+                        playsInline
+                        className="absolute top-0 left-0 w-full h-full object-cover"
+                        poster="/hero.png"
+                    >
+                        <source src="/video/bg.webm" type="video/webm"/>
+                    </video>
+                )}
+
+                {/* Контент поверх */}
+                <div className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
+                    <div>
+                        <h1 className="text-4xl md:text-6xl font-bold">Добро пожаловать в LEVO</h1>
+                        <p className="mt-4 text-lg md:text-xl">Умная техника для вашего дома</p>
                     </div>
-                </Container>
-            </section>
+                </div>
+            </div>
         </>
     );
 }

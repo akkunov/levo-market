@@ -8,7 +8,7 @@ import { PiPhone } from "react-icons/pi";
 
 const Burger : FC = () => {
     return (
-        <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg" className={`w-[25] md:w-[36]`}>
             <rect width="36" height="2" fill="#FDF5F5"/>
             <rect y="10" width="36" height="2" fill="#FDF5F5"/>
             <rect y="20" width="36" height="2" fill="#FDF5F5"/>
@@ -19,21 +19,24 @@ const Burger : FC = () => {
 
 export const Header: FC  = () => {
         return(
-            <header className="absolute top-0 left-0 w-full z-20 max-h-[60px] bg-gray-300/30 box-border">
-                <Container className={`mx-auto flex items-center justify-between px-6 py-2 text-white`}>
-                    <Burger />
+            <header className="absolute top-0 left-0 w-full z-20 bg-gray-300/30 box-border">
+                <Container className={`mx-auto flex items-center justify-between px-2 base:px-6 lg:py-2 py-0 text-white`}>
+                    <div className={`flex flex-row  gap-2 text-sm md:text-2xl items-center justify-center`}>
+                        <Burger />
+                        Меню
+                    </div>
                         <Link href="/" className="text-2xl font-bold">
-                            <Image src={'/logo.svg'} alt={'logo'}  width={75} height={75}/>
+                            <Image src={'/logo.svg'} alt={'logo'}  width={75} height={75} className={`w-[50px] h-[50px] md:w-full md:h-full`}/>
                         </Link>
                     <div className={`flex flex-col`}>
-                        <div className={`flex flex-row items-center gap-x-1 justify-center`}>
-                            <span>0551 06 90 04</span>
+                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-2xl`}>
+                            <span >0551 06 90 04</span>
                             <PiPhone />
-                        </div>
-                        <div className={`flex flex-row items-center gap-x-1 justify-center`}>
-                            <span>0551 06 90 04</span>
+                        </a>
+                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-2xl`}>
+                            <span >0551 06 90 04</span>
                             <PiPhone />
-                        </div>
+                        </a>
 
                     </div>
                 </Container>
