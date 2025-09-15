@@ -61,6 +61,7 @@ export default function Hero() {
                         autoPlay
                         muted
                         playsInline
+                        loop={true}
                         className="absolute top-0 left-0 w-full h-full object-cover"
                         poster="/hero.png"
                     >

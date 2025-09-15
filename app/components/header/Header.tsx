@@ -29,11 +29,11 @@ export const Header: FC  = () => {
                             <Image src={'/logo.svg'} alt={'logo'}  width={75} height={75} className={`w-[50px] h-[50px] md:w-full md:h-full`}/>
                         </Link>
                     <div className={`flex flex-col`}>
-                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-2xl`}>
+                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-xl`}>
                             <span >0551 06 90 04</span>
                             <PiPhone />
                         </a>
-                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-2xl`}>
+                        <a href={`tel:0551069004`} className={`flex flex-row items-center gap-x-1 justify-center text-sm md:text-xl`}>
                             <span >0551 06 90 04</span>
                             <PiPhone />
                         </a>
