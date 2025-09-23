@@ -4,13 +4,13 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { IoMdArrowDown } from "react-icons/io";
+import {IoMdArrowDown} from "react-icons/io";
 
 export default function Hero() {
     const [showVideo, setShowVideo] = useState(true);
     useEffect(() => {
         setShowVideo(true)
-    },[])
+    }, [])
 
 
     return (
@@ -21,12 +21,12 @@ export default function Hero() {
                     name="description"
                     content="Купить бытовую технику LEVO в Бишкеке: стиральные машины, холодильники, морозильные лари, духовые шкафы, варочные панели. Доставка и гарантия."
                 />
-                <meta property="og:title" content="LEVO — умная техника для вашего дома" />
+                <meta property="og:title" content="LEVO — умная техника для вашего дома"/>
                 <meta
                     property="og:description"
                     content="Современные решения, которые упрощают жизнь каждый день."
                 />
-                <meta property="og:image" content="/hero.png" />
+                <meta property="og:image" content="/hero.png"/>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
@@ -71,13 +71,17 @@ export default function Hero() {
                 )}
 
                 {/* Контент поверх */}
-                <div className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
+                <div
+                    className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
                     <div>
                         <h1 className="text-2xl md:text-6xl font-bold text-start">Добро пожаловать в LEVO</h1>
                         <p className="mt-4 text-md md:text-xl text-start">Умная техника для вашего дома</p>
-                        <Link rel="stylesheet" href="#" className={`flex flex-row justify-between items-center rounded-sm p-2 mt-4 bg-[#1D1D1D] text-white whitespace-nowrap active:bg-[#1D1D1D]/80 w-42`}>
+                        <Link rel="stylesheet" href="#hero-catalog" scroll={true}
+                              className={`flex flex-row justify-between
+                              items-center rounded-sm p-2 mt-4 bg-[#1D1D1D]
+                               text-white whitespace-nowrap active:bg-[#1D1D1D]/80 w-42 `} >
                             Смотреть каталог...
-                            <IoMdArrowDown />
+                            <IoMdArrowDown/>
                         </Link>
                     </div>
                 </div>

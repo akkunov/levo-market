@@ -6,6 +6,9 @@
 }
 
 @theme inline {
+  --font-geist-sans: 'geist-sans', sans-serif;
+  --font-geist-mono: 'geist-serif', sans-serif;
+  --font-porsche-next: 'porsche-next', sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -28,4 +31,9 @@ body {
   background: var(--background);
   color: var(--foreground);
 
+}
+
+ul,ol {
+  padding: 0;
+  margin: 0;
 }
