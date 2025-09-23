@@ -4,6 +4,7 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { IoMdArrowDown } from "react-icons/io";
 
 export default function Hero() {
     const [showVideo, setShowVideo] = useState(true);
@@ -74,8 +75,9 @@ export default function Hero() {
                     <div>
                         <h1 className="text-2xl md:text-6xl font-bold text-start">Добро пожаловать в LEVO</h1>
                         <p className="mt-4 text-md md:text-xl text-start">Умная техника для вашего дома</p>
-                        <Link rel="stylesheet" href="#" className={`rounded-sm p-2 mt-4 bg-[#1D1D1D] text-white block active:bg-[#1D1D1D]/80 w-32`}>
-                            Подробнее...
+                        <Link rel="stylesheet" href="#" className={`flex flex-row justify-between items-center rounded-sm p-2 mt-4 bg-[#1D1D1D] text-white whitespace-nowrap active:bg-[#1D1D1D]/80 w-42`}>
+                            Смотреть каталог...
+                            <IoMdArrowDown />
                         </Link>
                     </div>
                 </div>

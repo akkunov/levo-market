@@ -1,9 +1,8 @@
 import {FC} from "react";
-import WashMachine from "@/app/components/cards/washMachine/WashMachine";
 
 import Container from "../container/Container";
-import {Filter} from "@/app/components/filter/Filter";
 import Head from "next/head";
+import Image from "next/image";
 
 export type Product = {
     id: string;
@@ -120,38 +119,70 @@ export const Catalog: FC = () => {
                 />
             </Head>
 
-            <Container className="flex flex-col text-start w-full">
-                <h1 className="text-4xl text-black font-[var(--font-porsche-next)]">
-                    Купить бытовую технику LEVO в Бишкеке — каталог моделей
-                </h1>
-                <div className="mt-10 flex flex-row gap-x-8">
-                    <div className={`hidden md:block`}>
-                        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>
-                        <Filter />
-                    </div>
-                    <div className="sm:items-center flex-col flex-1">
-                        {mockCategories.map((category) => (
-                            <div key={category.name} className="w-full flex flex-col">
-                                <h2 className="my-4 font-bold text-2xl mx-2">
-                                    {category.name} LEVO — цены и характеристики
-                                </h2>
-                                <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                    {category.products.map((product) => (
-                                        <div key={product.id} className="m-2">
-                                            <WashMachine
-                                                image={product.image}
-                                                name={product.name}
-                                                description={product.description}
-                                                alt={`Купить ${product.name} LEVO в Бишкеке — ${product.description}`}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            <Container className="flex flex-col text-start w-full mt-10">
+                {/*<h1 className="text-4xl text-white font-[var(--font-porsche-next)]">*/}
+                {/*    Купить бытовую технику LEVO в Бишкеке — каталог моделей*/}
+                {/*</h1>*/}
+                <ExploreGrid />
+                {/*<div className="mt-10 flex flex-row gap-x-8">*/}
+                {/*    <div className={`hidden md:block`}>*/}
+                {/*        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>*/}
+                {/*        <Filter />*/}
+                {/*    </div>*/}
+                {/*    <div className="sm:items-center flex-col flex-1">*/}
+                {/*        {mockCategories.map((category) => (*/}
+                {/*            <div key={category.name} className="w-full flex flex-col">*/}
+                {/*                <h2 className="my-4 font-bold text-2xl mx-2">*/}
+                {/*                    {category.name} LEVO — цены и характеристики*/}
+                {/*                </h2>*/}
+                {/*                <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">*/}
+                {/*                    {category.products.map((product) => (*/}
+                {/*                        <div key={product.id} className="m-2">*/}
+                {/*                            <WashMachine*/}
+                {/*                                image={product.image}*/}
+                {/*                                name={product.name}*/}
+                {/*                                description={product.description}*/}
+                {/*                                alt={`Купить ${product.name} LEVO в Бишкеке — ${product.description}`}*/}
+                {/*                            />*/}
+                {/*                        </div>*/}
+                {/*                    ))}*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </Container>
         </section>
     );
 };
+
+export default function ExploreGrid() {
+    return (
+        <div className="grid gap-2">
+            {/* Первый ряд — большой слева */}
+            <div className="grid md:grid-cols-4 md:grid-rows-2 gap-2 lg:px-24 px-2 grid-cols-2">
+                <div className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
+                    <Image src={'/demo/265.jpg'} alt={'Стиральная машина Levo '}  className="object-cover" fill />
+                    <a className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина Levo</a>
+                </div>
+                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image src={'/demo/fridge.png'} alt={'Холодильники Levo'}  className="object-cover" fill />
+                    <a className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники Levo</a>
+                </div>
+                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
+                    <Image src={'/demo/conditioner.webp'} alt={'Кондиционеры Levo'}  className="object-cover" fill />
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры Levo</a>
+                </div>
+                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image src={'/demo/oven.png'} alt={'Духовые шкафы'}  className="object-cover" fill />
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые шкафы</a>
+                </div>
+                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image src={'/demo/cooktop.png'} alt={'Варочные поверхности'}  className="object-cover" fill />
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники Levo</a>
+                </div>
+            </div>
+
+        </div>
+    );
+}

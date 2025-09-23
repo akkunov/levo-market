@@ -21,7 +21,7 @@ export const Header: FC  = () => {
         return(
             <header className="absolute top-0 left-0 w-full z-20 bg-gray-300/30 box-border">
                 <Container className={`mx-auto flex items-center justify-between px-2 base:px-6 lg:py-2 py-0 text-white`}>
-                    <div className={`flex flex-row  gap-2 text-sm md:text-2xl items-center justify-center`}>
+                    <div className={`flex flex-row  gap-2 text-sm md:text-2xl items-center justify-center cursor-pointer`}>
                         <Burger />
                         Меню
                     </div>
