@@ -119,7 +119,7 @@ export const Catalog: FC = () => {
                 />
             </Head>
 
-            <Container className="flex flex-col text-start w-full mt-10">
+            <Container className="flex flex-col text-start w-full mt-10 mx-auto">
                 {/*<h1 className="text-4xl text-white font-[var(--font-porsche-next)]">*/}
                 {/*    Купить бытовую технику LEVO в Бишкеке — каталог моделей*/}
                 {/*</h1>*/}

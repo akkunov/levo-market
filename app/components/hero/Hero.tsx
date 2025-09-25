@@ -76,7 +76,7 @@ export default function Hero() {
                     <div>
                         <h1 className="text-2xl md:text-6xl font-bold text-start">Добро пожаловать в LEVO</h1>
                         <p className="mt-4 text-md md:text-xl text-start">Умная техника для вашего дома</p>
-                        <Link rel="stylesheet" href="#hero-catalog" scroll={true}
+                        <Link rel="stylesheet" href="/#hero-catalog" scroll={true}
                               className={`flex flex-row justify-between
                               items-center rounded-sm p-2 mt-4 bg-[#1D1D1D]
                                text-white whitespace-nowrap active:bg-[#1D1D1D]/80 w-42 `} >
