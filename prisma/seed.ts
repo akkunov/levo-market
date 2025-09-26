@@ -1,4 +1,4 @@
-import {PrismaClient} from "@/app/generated/prisma";
+import {PrismaClient} from "@prisma/client";
 
 
 const prisma = new PrismaClient()
@@ -6,10 +6,8 @@ const prisma = new PrismaClient()
 async function main() {
     await prisma.user.createMany({
         data: [
-            { email: 'asan@asfsafas.com', name: 'Bob' },
-            { email: 'asan@asfsafaasfasfs.com', name: 'Bob' },
-            { email: 'asan@asfsaasffasfaasfasfs.com', name: 'Bob' },
-            { email: 'asan@asfas.com', name: 'Bob' },
+            { email: 'akunov313131@gmail.com', name: 'Bob' },
+
         ],
     })
 }
