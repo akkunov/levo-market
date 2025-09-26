@@ -1,16 +1,9 @@
-'use client'
-
 import Head from "next/head";
-import {useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { IoMdArrowDown } from "react-icons/io";
 
 export default function Hero() {
-    const [videoReady, setVideoReady] = useState(false);
-    useEffect(() => {
-        console.log(videoReady);
-    },[videoReady])
 
     return (
         <>
@@ -30,7 +23,7 @@ export default function Hero() {
 
             <div className="relative w-full h-screen overflow-hidden">
                 {/* Пока видео не готово — показываем картинку */}
-                {!videoReady && (
+
                     <Image
                         src="/hero.png"
                         alt="Hero"
@@ -38,21 +31,19 @@ export default function Hero() {
                         fill
                         priority
                     />
-                )}
-
-                <video
-                    autoPlay
-                    muted
-                    playsInline
-                    loop
-                    className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
-                        videoReady ? "opacity-100" : "opacity-0"
-                    }`}
-                    poster="/hero.png"
-                    onLoadedData={() => setVideoReady(true)}
-                >
-                    <source src="/video/bg.webm" type="video/webm" />
-                </video>
+                {/*<video*/}
+                {/*    autoPlay*/}
+                {/*    muted*/}
+                {/*    playsInline*/}
+                {/*    loop*/}
+                {/*    className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${*/}
+                {/*        videoReady ? "opacity-100" : "opacity-0"*/}
+                {/*    }`}*/}
+                {/*    poster="/hero.png"*/}
+                {/*    onLoadedData={() => setVideoReady(true)}*/}
+                {/*>*/}
+                {/*    <source src="/video/bg.webm" type="video/webm" />*/}
+                {/*</video>*/}
 
                 {/* Контент поверх */}
                 <div className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
