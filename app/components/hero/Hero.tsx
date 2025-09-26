@@ -18,14 +18,14 @@ export default function Hero() {
                     property="og:description"
                     content="Современные решения, которые упрощают жизнь каждый день."
                 />
-                <meta property="og:image" content="/hero.png" />
+                <meta property="og:image" content="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/herosdgs.png" />
             </Head>
 
             <div className="relative w-full h-screen overflow-hidden">
                 {/* Пока видео не готово — показываем картинку */}
 
                     <Image
-                        src="/hero.png"
+                        src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/herosdgs.png"
                         alt="Hero"
                         className="w-full h-full object-cover"
                         fill
