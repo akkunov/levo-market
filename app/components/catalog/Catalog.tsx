@@ -48,7 +48,7 @@ export const mockCategories: Category[] = [
             id: `freezer-${i + 2}`,
             name: `Морозильный ларь Levo ${i + 1}`,
             price: 25000 + i * 1800,
-            image: `/demo/freezer.jpg`,
+            image: `https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp`,
             description: `Просторный морозильный ларь объемом 300 л, модель ${i + 1}.`,
         })),
     },
@@ -65,12 +65,12 @@ export const mockCategories: Category[] = [
     },
     {
         id: "ovens",
-        name: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png",
+        name: "Духовой шкаф ",
         products: Array.from({length: 10}, (_, i) => ({
             id: `oven-${i + 1}`,
             name: `Духовой шкаф Levo ${i + 1}`,
             price: 22000 + i * 1200,
-            image: `/demo/oven.png`,
+            image: `https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png`,
             description: `Электрический духовой шкаф с грилем и конвекцией, модель ${i + 1}.`,
         })),
     },
