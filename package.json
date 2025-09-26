@@ -12,6 +12,7 @@
     "tailwind:watch": "tailwindcss -i ./src/styles/globals.css -o ./public/tailwind.css --watch"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.896.0",
     "@prisma/client": "^6.16.2",
     "next": "15.5.2",
     "react": "19.1.0",

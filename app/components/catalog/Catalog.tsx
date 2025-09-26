@@ -22,7 +22,7 @@ export const mockCategories: Category[] = [
     {
         id: "washing-machines",
         name: "Стиральные машины",
-        products: Array.from({ length: 5 }, (_, i) => ({
+        products: Array.from({length: 5}, (_, i) => ({
             id: `wm-${i + 1}`,
             name: `Стиральная машина Levo ${i + 1}`,
             price: 20000 + i * 1500,
@@ -33,7 +33,7 @@ export const mockCategories: Category[] = [
     {
         id: "refrigerators",
         name: "Холодильники",
-        products: Array.from({ length: 10 }, (_, i) => ({
+        products: Array.from({length: 10}, (_, i) => ({
             id: `fridge-${i + 3}`,
             name: `Холодильник Levo ${i + 1}`,
             price: 35000 + i * 2000,
@@ -44,7 +44,7 @@ export const mockCategories: Category[] = [
     {
         id: "freezers",
         name: "Морозильные лари",
-        products: Array.from({ length: 10 }, (_, i) => ({
+        products: Array.from({length: 10}, (_, i) => ({
             id: `freezer-${i + 2}`,
             name: `Морозильный ларь Levo ${i + 1}`,
             price: 25000 + i * 1800,
@@ -55,7 +55,7 @@ export const mockCategories: Category[] = [
     {
         id: "conditioners",
         name: "Кондиционеры",
-        products: Array.from({ length: 10 }, (_, i) => ({
+        products: Array.from({length: 10}, (_, i) => ({
             id: `ac-${i + 1}`,
             name: `Кондиционер Levo ${i + 6}`,
             price: 28000 + i * 2000,
@@ -66,7 +66,7 @@ export const mockCategories: Category[] = [
     {
         id: "ovens",
         name: "Духовые шкафы",
-        products: Array.from({ length: 10 }, (_, i) => ({
+        products: Array.from({length: 10}, (_, i) => ({
             id: `oven-${i + 1}`,
             name: `Духовой шкаф Levo ${i + 1}`,
             price: 22000 + i * 1200,
@@ -77,7 +77,7 @@ export const mockCategories: Category[] = [
     {
         id: "cooktops",
         name: "Варочные поверхности",
-        products: Array.from({ length: 2 }, (_, i) => ({
+        products: Array.from({length: 2}, (_, i) => ({
             id: `cooktop-${i + 1}`,
             name: `Варочная поверхность Levo ${i + 1}`,
             price: 15000 + i * 1000,
@@ -115,7 +115,7 @@ export const Catalog: FC = () => {
             <Head>
                 <script
                     type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(productsSchema) }}
+                    dangerouslySetInnerHTML={{__html: JSON.stringify(productsSchema)}}
                 />
             </Head>
 
@@ -123,7 +123,7 @@ export const Catalog: FC = () => {
                 {/*<h1 className="text-4xl text-white font-[var(--font-porsche-next)]">*/}
                 {/*    Купить бытовую технику LEVO в Бишкеке — каталог моделей*/}
                 {/*</h1>*/}
-                <ExploreGrid />
+                <ExploreGrid/>
                 {/*<div className="mt-10 flex flex-row gap-x-8">*/}
                 {/*    <div className={`hidden md:block`}>*/}
                 {/*        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>*/}
@@ -161,25 +161,45 @@ export default function ExploreGrid() {
         <div className="grid gap-2">
             {/* Первый ряд — большой слева */}
             <div className="grid md:grid-cols-4 md:grid-rows-2 gap-2 lg:px-24 px-2 grid-cols-2">
-                <div className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
-                    <Image src={'/demo/265.jpg'} alt={'Стиральная машина Levo '}  className="object-cover" fill />
-                    <a className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина Levo</a>
+                <div
+                    className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
+                    <Image
+                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg'}
+                        alt={'Стиральная машина Levo '} className="object-cover" fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"/>
+                    <a className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина
+                        Levo</a>
                 </div>
-                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image src={'/demo/fridge.png'} alt={'Холодильники Levo'}  className="object-cover" fill />
-                    <a className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники Levo</a>
+                <div
+                    className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image
+                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/bda02c06-4e5f-4d46-b0f7-8b2f4a4cb5c5-fridge.png'}
+                        alt={'Холодильники Levo'} className="object-cover" fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    <a className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники
+                        Levo</a>
                 </div>
-                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
-                    <Image src={'/demo/conditioner.webp'} alt={'Кондиционеры Levo'}  className="object-cover" fill />
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры Levo</a>
+                <div
+                    className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
+                    <Image
+                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp'}
+                        alt={'Кондиционеры Levo'} className="object-cover" fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры
+                        Levo</a>
                 </div>
-                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image src={'/demo/oven.png'} alt={'Духовые шкафы'}  className="object-cover" fill />
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые шкафы</a>
+                <div
+                    className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png'} alt={'Духовые шкафы'} className="object-cover" fill
+                           sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые
+                        шкафы</a>
                 </div>
-                <div className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image src={'/demo/cooktop.png'} alt={'Варочные поверхности'}  className="object-cover" fill />
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники Levo</a>
+                <div
+                    className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
+                    <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/d91a44a5-81ef-4e87-a075-defad0fad003-dask.png'} alt={'Варочные поверхности'} className="object-cover" fill
+                           sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Варочные поверхности</a>
                 </div>
             </div>
 
