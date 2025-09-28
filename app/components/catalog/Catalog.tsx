@@ -3,6 +3,7 @@ import {FC} from "react";
 import Container from "../container/Container";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 
 export type Product = {
     id: string;
@@ -120,37 +121,7 @@ export const Catalog: FC = () => {
             </Head>
 
             <Container className="flex flex-col text-start w-full mt-10 mx-auto">
-                {/*<h1 className="text-4xl text-white font-[var(--font-porsche-next)]">*/}
-                {/*    Купить бытовую технику LEVO в Бишкеке — каталог моделей*/}
-                {/*</h1>*/}
                 <ExploreGrid/>
-                {/*<div className="mt-10 flex flex-row gap-x-8">*/}
-                {/*    <div className={`hidden md:block`}>*/}
-                {/*        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>*/}
-                {/*        <Filter />*/}
-                {/*    </div>*/}
-                {/*    <div className="sm:items-center flex-col flex-1">*/}
-                {/*        {mockCategories.map((category) => (*/}
-                {/*            <div key={category.name} className="w-full flex flex-col">*/}
-                {/*                <h2 className="my-4 font-bold text-2xl mx-2">*/}
-                {/*                    {category.name} LEVO — цены и характеристики*/}
-                {/*                </h2>*/}
-                {/*                <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">*/}
-                {/*                    {category.products.map((product) => (*/}
-                {/*                        <div key={product.id} className="m-2">*/}
-                {/*                            <WashMachine*/}
-                {/*                                image={product.image}*/}
-                {/*                                name={product.name}*/}
-                {/*                                description={product.description}*/}
-                {/*                                alt={`Купить ${product.name} LEVO в Бишкеке — ${product.description}`}*/}
-                {/*                            />*/}
-                {/*                        </div>*/}
-                {/*                    ))}*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </Container>
         </section>
     );
@@ -161,23 +132,24 @@ export default function ExploreGrid() {
         <div className="grid gap-2">
             {/* Первый ряд — большой слева */}
             <div className="grid md:grid-cols-4 md:grid-rows-2 gap-2 lg:px-24 px-2 grid-cols-2">
-                <div
-                    className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
-                    <Image
-                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg'}
-                        alt={'Стиральная машина Levo '} className="object-cover" fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"/>
-                    <a className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина
-                        Levo</a>
-                </div>
+                    <div
+                        className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
+                        <Image
+                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg'}
+                            alt={'Стиральная машина Levo '} className="object-cover" fill
+                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"/>
+                        <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина
+                            Levo</Link>
+                    </div>
+
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Image
                         src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/bda02c06-4e5f-4d46-b0f7-8b2f4a4cb5c5-fridge.png'}
                         alt={'Холодильники Levo'} className="object-cover" fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <a className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники
-                        Levo</a>
+                    <Link href={'/products'} className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники
+                        Levo</Link>
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
@@ -185,21 +157,21 @@ export default function ExploreGrid() {
                         src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp'}
                         alt={'Кондиционеры Levo'} className="object-cover" fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры
-                        Levo</a>
+                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры
+                        Levo</Link>
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png'} alt={'Духовые шкафы'} className="object-cover" fill
                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые
-                        шкафы</a>
+                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые
+                        шкафы</Link>
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/d91a44a5-81ef-4e87-a075-defad0fad003-dask.png'} alt={'Варочные поверхности'} className="object-cover" fill
                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <a className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Варочные поверхности</a>
+                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Варочные поверхности</Link>
                 </div>
             </div>
 

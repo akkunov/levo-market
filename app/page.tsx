@@ -1,11 +1,12 @@
 import Hero from "./components/hero/Hero";
 import {Catalog} from "@/app/components/catalog/Catalog";
 import Footer from "@/app/components/footer/footer";
-// import {UploadImage} from "@/app/components/uploadImage/uploadForm";
+import {Header} from "@/app/components/header/Header";
 
 export default function Home() {
   return (
       <>
+          <Header />
           <main>
               <Hero />
           </main>

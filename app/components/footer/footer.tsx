@@ -7,14 +7,15 @@ import {SiTelegram, SiWhatsapp} from "react-icons/si";
 
 export const Footer: FC = () => {
     return (
-        <footer className={`flex flex-col bg-[#101828] py-8`}>
+        <footer className={`flex flex-col bg-[#101828] py-8 `} id={`contacts`}>
             <Container>
                 <div className={`flex flex-row px-4 gap-4`}>
                     <ul className="text-sm text-white grid grid-cols-1 max-w-1/2 p-2 gap-2 pb-8">
                         <li>
                             <Link
-                                href="#"
+                                href="https://www.instagram.com/levo_kg/"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                target={'_blank'}
                             >
                                 Instagram <BsInstagram />
                             </Link>
@@ -23,14 +24,16 @@ export const Footer: FC = () => {
                             <Link
                                 href="#"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                target={'_blank'}
                             >
                                 Telegram <SiTelegram />
                             </Link>
                         </li>
                         <li>
                             <Link
-                                href="#"
+                                href="https://wa.me/+996776666878"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                target={'_blank'}
                             >
                                 WhatsApp <SiWhatsapp />
                             </Link>
@@ -39,17 +42,18 @@ export const Footer: FC = () => {
                             <Link
                                 href="mailto:akunov313131@gmail.com"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                target={'_blank'}
                             >
                                 Levo@meraket.com
                             </Link>
                         </li>
                         <li>
                             <Link
-                                href="tel:+996551069004"
+                                href="tel:+996776666878"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300 whitespace-pre-wrap"
                             >
                                 По любым вопросам звоните:
-                                0551 069 004
+                                776 666 878
                             </Link>
                         </li>
                     </ul>

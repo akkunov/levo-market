@@ -1,15 +1,33 @@
-import { FC } from "react";
-import {Radio} from "@/app/components/ui/Radio";
+"use client"
 
-export const Filter: FC = () => {
+import { FC } from "react"
+import { Radio } from "@/app/components/ui/Radio"
+import type { Category } from "@prisma/client"
+
+type Props = {
+    categories: Category[]
+    selected: string
+    onChange: (val: string) => void
+}
+
+export const Filter: FC<Props> = ({ categories, selected, onChange }) => {
     return (
-        <div className={`max-w-[270px] w-full flex flex-col gap-y-2`}>
-            <Radio  label={'Стиральная машина'}  className={`text-nowrap text-base`}/>
-            <Radio  label={'Холодильник'} className={`text-nowrap text-base`}/>
-            <Radio  label={'Морозильный ларь'} className={`text-nowrap text-base`}/>
-            <Radio  label={'Кондиционер'} className={`text-nowrap text-base`}/>
-            <Radio  label={'Духовые шкафы'} className={`text-nowrap text-base`}/>
-            <Radio  label={'Варочные поверхности'} className={`text-nowrap text-base`}/>
+        <div className="max-w-[270px] w-full flex flex-col gap-y-2">
+            <Radio
+                label="Все"
+                checked={selected === "Все"}
+                onChange={() => onChange("Все")}
+                className="text-nowrap text-base"
+            />
+            {categories.map(cat => (
+                <Radio
+                    key={cat.id}
+                    label={cat.name}
+                    checked={selected === cat.id}
+                    onChange={() => onChange(cat.id)}
+                    className="text-nowrap text-base"
+                />
+            ))}
         </div>
-    );
+    )
 }
