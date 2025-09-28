@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { createSupabaseServerClient } from '@/lib/supabaseServer'
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+
+export async function PUT( req: NextRequest,
+                           context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params
     try {
         const supabase = createSupabaseServerClient()
         const { data } = await supabase.auth.getUser()
@@ -19,7 +22,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
 
         const updated = await prisma.category.update({
-            where: { id: params.id },
+            where: { id: id },
             data: { name, slug },
         })
 
@@ -31,7 +34,10 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 }
 
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest,
+                             context: { params: Promise<{ id: string }> }) {
+    console.log(req)
+    const { id } = await context.params
     try {
         const supabase = createSupabaseServerClient()
         const { data } = await supabase.auth.getUser()
@@ -41,7 +47,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         }
 
         await prisma.category.delete({
-            where: { id: params.id },
+            where: { id: id },
         })
 
         return NextResponse.json({ success: true })

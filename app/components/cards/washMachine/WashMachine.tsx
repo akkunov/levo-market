@@ -2,7 +2,7 @@ import {FC} from "react";
 import Image from "next/image";
 
 type Props = {
-    category: string;
+    category?: string | null;
     id: string;
     slug?: string;
     image: string | null;
