@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import {NextRequest, NextResponse} from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { createSupabaseServerClient } from '@/lib/supabaseServer'
 import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3'
@@ -26,7 +26,9 @@ async function deleteFromR2(url: string) {
     }
 }
 
-export async function GET(_req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest,
+                          context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params
     try {
         const supabase = createSupabaseServerClient()
         const { data } = await supabase.auth.getUser()
@@ -35,7 +37,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const product = await prisma.product.findUnique({ where: { id: params.id } })
+        const product = await prisma.product.findUnique({ where: { id: id } })
         if (!product) {
             return NextResponse.json({ error: 'Продукт не найден' }, { status: 404 })
         }
@@ -45,7 +47,9 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest,
+                          context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params
     try {
         const supabase = createSupabaseServerClient()
         const { data } = await supabase.auth.getUser()
@@ -57,7 +61,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         const body = await req.json()
         const { name, price, type, photoUrl, characteristics, categoryId } = body
 
-        const existing = await prisma.product.findUnique({ where: { id: params.id } })
+        const existing = await prisma.product.findUnique({ where: { id: id } })
         if (!existing) {
             return NextResponse.json({ error: 'Продукт не найден' }, { status: 404 })
         }
@@ -68,7 +72,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
 
         const updated = await prisma.product.update({
-            where: { id: params.id },
+            where: { id: id },
             data: {
                 name,
                 price: parseFloat(price),
@@ -86,7 +90,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest,
+                             context: { params: Promise<{ id: string }> }) {
+    const { id } = await context.params
     try {
         const supabase = createSupabaseServerClient()
         const { data } = await supabase.auth.getUser()
@@ -95,7 +101,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const existing = await prisma.product.findUnique({ where: { id: params.id } })
+        const existing = await prisma.product.findUnique({ where: { id: id } })
         if (!existing) {
             return NextResponse.json({ error: 'Продукт не найден' }, { status: 404 })
         }
@@ -105,7 +111,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
             await deleteFromR2(existing.photoUrl)
         }
 
-        await prisma.product.delete({ where: { id: params.id } })
+        await prisma.product.delete({ where: { id: id } })
 
         return NextResponse.json({ success: true })
     } catch (err) {
