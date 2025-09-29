@@ -15,25 +15,57 @@ model User {
   createdAt DateTime @default(now())
 }
 
-model Category {
-  id        String    @id @default(cuid())
+model Catalog {
+  id         Int        @id @default(autoincrement())
+  name       String
+  slug       String     @unique
+  products   Product[]
+  attributes CatalogAttribute[] // связь с атрибутами через промежуточную таблицу
+}
+
+model Attribute {
+  id        Int             @id @default(autoincrement())
   name      String
-  slug      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  products  Product[]
+  type      AttributeType
+  options   String[]
+  catalogs  CatalogAttribute[] // связь с каталогами через промежуточную таблицу
+  values    ProductAttributeValue[]
+}
+
+model CatalogAttribute {
+  id          Int       @id @default(autoincrement())
+  catalogId   Int
+  attributeId Int
+
+  catalog   Catalog   @relation(fields: [catalogId], references: [id])
+  attribute Attribute @relation(fields: [attributeId], references: [id])
+
+  @@unique([catalogId, attributeId]) // атрибут не дублируется для одного каталога
+}
+
+model ProductAttributeValue {
+  id          Int       @id @default(autoincrement())
+  productId   Int
+  attributeId Int
+  value       String
+
+  product   Product    @relation(fields: [productId], references: [id])
+  attribute Attribute  @relation(fields: [attributeId], references: [id])
 }
 
 model Product {
-  id             String   @id @default(cuid())
-  name           String
-  price          Float
-  type           String
-  photoUrl       String
-  characteristics Json?
-  createdBy      String?
-  categoryId     String?
-  category       Category? @relation(fields: [categoryId], references: [id])
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  title     String
+  price     Float?
+  image     String?
+  catalogId Int
+  catalog   Catalog  @relation(fields: [catalogId], references: [id])
+
+  attributes ProductAttributeValue[]
+}
+
+enum AttributeType {
+  TEXT
+  NUMBER
+  DROPDOWN
 }

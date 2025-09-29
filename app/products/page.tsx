@@ -1,66 +1,91 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Header } from "@/app/components/header/Header"
-import Container from "@/app/components/container/Container"
-import WashMachine from "@/app/components/cards/washMachine/WashMachine"
-import { Filter } from "@/app/components/filter/Filter"
-import type { Category, Product } from "@prisma/client"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
-export default function ProductsPage() {
-    const [categories, setCategories] = useState<Category[]>([])
-    const [products, setProducts] = useState<(Product & { category: Category | null })[]>([])
-    const [selectedCategory, setSelectedCategory] = useState<string>("Все")
+type Catalog = { id: number; name: string };
+type Attribute = { id: number; name: string; type: "TEXT" | "NUMBER" | "DROPDOWN"; options: string[] };
+
+export default function NewProductPage() {
+    const [catalogs, setCatalogs] = useState<Catalog[]>([]);
+    const [catalogId, setCatalogId] = useState<number | null>(null);
+    const [attributes, setAttributes] = useState<Attribute[]>([]);
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [values, setValues] = useState<Record<number, string>>({});
 
     useEffect(() => {
-        fetch("/api/admin/categories")
-            .then(r => r.json())
-            .then(setCategories)
-    }, [])
+        fetch("/api/catalogs").then(res => res.json()).then(setCatalogs);
+    }, []);
 
     useEffect(() => {
-        const url = selectedCategory === "Все"
-            ? "/api/admin/products"
-            : `/api/admin/products?categoryId=${selectedCategory}`
-        fetch(url)
-            .then(r => r.json())
-            .then(setProducts)
-    }, [selectedCategory])
+        if (catalogId) {
+            fetch(`/api/attributes/byCatalog/${catalogId}`).then(res => res.json()).then(setAttributes);
+        } else {
+            setAttributes([]);
+            setValues({});
+        }
+    }, [catalogId]);
+
+    const handleSubmit = async () => {
+        if (!catalogId) return alert("Выберите каталог");
+
+        const productData = {
+            title,
+            price: parseFloat(price),
+            catalogId,
+            attributes: Object.entries(values).map(([attributeId, value]) => ({
+                attributeId: Number(attributeId),
+                value,
+            })),
+        };
+
+        await fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(productData),
+        });
+
+        alert("Продукт создан ✅");
+        setTitle(""); setPrice(""); setCatalogId(null); setAttributes([]); setValues({});
+    };
 
     return (
-        <>
-            <Header />
-            <Container className="mx-auto mt-22">
-                <div className="mt-10 flex flex-row gap-x-8">
-                    {/* Фильтр */}
-                    <div className="hidden md:block">
-                        <h3 className="my-4 font-bold text-base">Фильтр моделей</h3>
-                        <Filter
-                            categories={categories}
-                            selected={selectedCategory}
-                            onChange={setSelectedCategory}
-                        />
-                    </div>
+        <Card className="max-w-2xl mx-auto mt-10">
+            <CardHeader><CardTitle>Создать продукт</CardTitle></CardHeader>
+            <CardContent className="space-y-4">
+                <Input placeholder="Название продукта" value={title} onChange={e => setTitle(e.target.value)} />
+                <Input type="number" placeholder="Цена" value={price} onChange={e => setPrice(e.target.value)} />
 
-                    {/* Список продуктов */}
-                    <div className="sm:items-center flex-col flex-1">
-                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                            {products.map(product => (
-                                <div key={product.id} className="m-2">
-                                    <WashMachine
-                                        image={product.photoUrl || "/placeholder.png"}
-                                        name={product.name}
-                                        alt={`Купить ${product.name} LEVO в Бишкеке — ${product.type}`}
-                                        price={product.price}
-                                        id={product.id}
-                                        category={product.category?.name || ""}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                <div>
+                    <label className="block mb-1 text-sm font-medium">Каталог</label>
+                    <Select onValueChange={val => setCatalogId(Number(val))} value={catalogId ? String(catalogId) : ""}>
+                        <SelectTrigger><SelectValue placeholder="Выберите каталог" /></SelectTrigger>
+                        <SelectContent>
+                            {catalogs.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>)}
+                        </SelectContent>
+                    </Select>
                 </div>
-            </Container>
-        </>
-    )
+
+                {attributes.map(attr => (
+                    <div key={attr.id}>
+                        <label className="block mb-1 text-sm font-medium">{attr.name}</label>
+
+                        {attr.type === "TEXT" && <Input value={values[attr.id]||""} onChange={e=>setValues({...values,[attr.id]:e.target.value})} />}
+                        {attr.type === "NUMBER" && <Input type="number" value={values[attr.id]||""} onChange={e=>setValues({...values,[attr.id]:e.target.value})} />}
+                        {attr.type === "DROPDOWN" &&
+                            <Select onValueChange={val=>setValues({...values,[attr.id]:val})} value={values[attr.id]||""}>
+                                <SelectTrigger><SelectValue placeholder="Выберите значение" /></SelectTrigger>
+                                <SelectContent>{attr.options.map(opt=><SelectItem key={opt} value={opt}>{opt}</SelectItem>)}</SelectContent>
+                            </Select>}
+                    </div>
+                ))}
+
+                <Button onClick={handleSubmit}>Сохранить продукт</Button>
+            </CardContent>
+        </Card>
+    );
 }

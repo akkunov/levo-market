@@ -6,8 +6,9 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const menu = [
     { name: 'Продукты', path: '/admin' },
-    { name: 'Категории', path: '/admin/categories' },
+    { name: 'Категории', path: '/admin/catalogs' },
     { name: 'Контакты', path: '/admin/contacts' },
+    { name: 'Аттрибуты', path: '/admin/attributes' },
 ]
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -21,7 +22,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     }
 
     return (
-        <div className="flex min-h-screen bg-[#E7E7E3]">
+        <div className="flex bg-[#E7E7E3] w-screen h-screen ">
             {/* Sidebar */}
             <aside className="w-64 bg-[#FAFAFA] text-white flex flex-col">
                 <div className="p-4 font-bold text-xl border-b border-gray-700 text-[#232321]">
@@ -49,7 +50,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </aside>
 
             {/* Main content */}
-            <main className="flex-1 p-6">{children}</main>
+            <main className="flex-1 lg:p-6 p-2 items-center justify-center">{children}</main>
         </div>
     )
 }

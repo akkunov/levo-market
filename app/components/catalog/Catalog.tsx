@@ -127,6 +127,8 @@ export const Catalog: FC = () => {
     );
 };
 
+
+
 export default function ExploreGrid() {
     return (
         <div className="grid gap-2">
@@ -134,14 +136,17 @@ export default function ExploreGrid() {
             <div className="grid md:grid-cols-4 md:grid-rows-2 gap-2 lg:px-24 px-2 grid-cols-2">
                     <div
                         className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
-                        <Image
-                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg'}
-                            alt={'Стиральная машина Levo '} className="object-cover" fill
-                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"/>
-                        <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-8 place-self-end text-base`}>Стиральная машина
-                            Levo</Link>
-                    </div>
 
+                        <Link href="/products" className={`bg-gray-300 flex z-20`}>
+                            <Image
+                                src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg"
+                                alt="Холодильники Levo"
+                                className="object-cover z-10 absolute"
+                                fill
+                                sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"
+                            />
+                        </Link>
+                    </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Image

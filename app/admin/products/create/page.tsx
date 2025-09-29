@@ -1,231 +1,168 @@
-'use client'
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react'
-import { useRouter } from 'next/navigation'
-import { FiArrowLeft, FiX } from 'react-icons/fi'
-import { Category } from '@prisma/client'
-import Image from "next/image";
+"use client";
 
-export default function CreateProductPage() {
-    const [form, setForm] = useState({
-        name: '',
-        price: '',
-        type: '',
-        photoUrl: '',
-        characteristics: '',
-        categoryId: '',
-    })
-    const [preview, setPreview] = useState<string | null>(null)
-    const [uploading, setUploading] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
-    const [categories, setCategories] = useState<Category[]>([])
-    const [file, setFile] = useState<File | null>(null)
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+} from "@/components/ui/select";
 
-    const router = useRouter()
+type Catalog = { id: number; name: string };
+type Attribute = {
+    id: number;
+    name: string;
+    type: "TEXT" | "NUMBER" | "DROPDOWN";
+    options: string[];
+};
 
+export default function NewProductPage() {
+    const [catalogs, setCatalogs] = useState<Catalog[]>([]);
+    const [catalogId, setCatalogId] = useState<number | null>(null);
+    const [attributes, setAttributes] = useState<Attribute[]>([]);
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [values, setValues] = useState<Record<number, string>>({});
 
-    // Загружаем категории
+    // Загружаем все каталоги
     useEffect(() => {
-        fetch('/api/admin/categories')
-            .then(r => r.json())
-            .then(setCategories)
-            .catch(console.error)
-    }, [])
+        fetch("/api/catalogs")
+            .then((res) => res.json())
+            .then(setCatalogs);
+    }, []);
 
-    function parseCharacteristics(input: string): Record<string, string> {
-        const lines = input.split('\n').map(l => l.trim()).filter(Boolean)
-        const obj: Record<string, string> = {}
-
-        for (const line of lines) {
-            // поддержка разделителей "-" или "—"
-            const [key, ...rest] = line.split(/[-–—:]/)
-            if (key && rest.length) {
-                obj[key.trim()] = rest.join('-').trim()
-            }
+    // Подгружаем атрибуты выбранного каталога
+    useEffect(() => {
+        if (catalogId) {
+            fetch(`/api/attributes/byCatalog/${catalogId}`)
+                .then((res) => res.json())
+                .then(setAttributes);
+        } else {
+            setAttributes([]);
+            setValues({});
         }
+    }, [catalogId]);
 
-        return obj
-    }
+    const handleSubmit = async () => {
+        if (!catalogId) return alert("Выберите каталог");
 
-    // Загрузка фото в R2
-    function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
-        const f = e.target.files?.[0]
-        if (!f) return
-        setFile(f)
-        setPreview(URL.createObjectURL(f)) // локальный preview
-    }
+        const productData = {
+            title,
+            price: parseFloat(price),
+            catalogId,
+            attributes: Object.entries(values).map(([attributeId, value]) => ({
+                attributeId: Number(attributeId),
+                value,
+            })),
+        };
 
-    // Удаление фото из предпросмотра
-    function handleRemovePhoto() {
-        setFile(null)
-        setPreview(null)
-    }
+        await fetch("/api/products", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(productData),
+        });
 
-    // Создание продукта
-    async function handleSubmit(e: FormEvent) {
-        e.preventDefault()
-        setError(null)
-        setLoading(true)
-
-        try {
-            let photoUrl = ''
-
-            // если файл выбран → загружаем его в R2
-            if (file) {
-                const formData = new FormData()
-                formData.append('file', file)
-
-                const uploadRes = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                })
-                if (!uploadRes.ok) {
-                    const data = await uploadRes.json().catch(() => ({}))
-                    throw new Error(data.error || 'Ошибка загрузки фото')
-                }
-                const data = await uploadRes.json()
-                photoUrl = data.url
-            }
-
-            // создаём продукт в базе
-            const res = await fetch('/api/admin/products', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...form,
-                    price: parseFloat(form.price),
-                    photoUrl,
-                    characteristics: form.characteristics
-                        ? parseCharacteristics(form.characteristics)
-                        : null,
-                }),
-            })
-
-            if (!res.ok) {
-                const data = await res.json().catch(() => ({}))
-                throw new Error(data.error || 'Ошибка при создании продукта')
-            }
-
-            await res.json()
-            router.push('/admin')
-            router.refresh()
-        } catch (e: unknown) {
-            if (e instanceof Error) setError(e.message)
-            else setError('Неизвестная ошибка')
-        } finally {
-            setLoading(false)
-        }
-    }
+        alert("Продукт создан ✅");
+        setTitle("");
+        setPrice("");
+        setCatalogId(null);
+        setAttributes([]);
+        setValues({});
+    };
 
     return (
-        <div className="min-h-screen bg-[#E7E7E3] p-6">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold">Create Product</h1>
-                    <p className="text-sm text-gray-600">Home &gt; Products &gt; Create</p>
-                </div>
-                <button
-                    onClick={() => router.push('/admin')}
-                    className="flex items-center gap-2 bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg transition"
-                >
-                    <FiArrowLeft /> Назад
-                </button>
-            </div>
-
-            {/* Form */}
-            <form
-                onSubmit={handleSubmit}
-                className="max-w-lg bg-[#FAFAFA] shadow rounded-lg p-6 space-y-4"
-            >
-                <input
-                    placeholder="Название"
-                    value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
-                    required
-                    className="w-full border p-2 rounded"
+        <Card className="max-w-2xl mx-auto mt-10">
+            <CardHeader>
+                <CardTitle>Создать продукт</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {/* Название */}
+                <Input
+                    placeholder="Название продукта"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
-                <input
-                    placeholder="Цена"
+
+                {/* Цена */}
+                <Input
                     type="number"
-                    value={form.price}
-                    onChange={e => setForm({ ...form, price: e.target.value })}
-                    required
-                    className="w-full border p-2 rounded"
-                />
-                <input
-                    placeholder="Тип (например: техника)"
-                    value={form.type}
-                    onChange={e => setForm({ ...form, type: e.target.value })}
-                    required
-                    className="w-full border p-2 rounded"
+                    placeholder="Цена"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                 />
 
-                {/* Upload */}
+                {/* Выбор каталога */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">Фото</label>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="w-full"
-                    />
-                    {uploading && <p className="text-sm text-gray-500">Загружаем...</p>}
-                    {preview && (
-                        <div className="relative inline-block mt-2">
-                            <Image
-                                src={preview}
-                                alt="preview"
-                                className="w-40 h-40 object-cover rounded"
-                                width={300}
-                                height={300}
-                            />
-                            <button
-                                type="button"
-                                onClick={handleRemovePhoto}
-                                className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
-                            >
-                                <FiX />
-                            </button>
-                        </div>
-                    )}
-                </div>
-
-                {/* Dropdown категорий */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Категория</label>
-                    <select
-                        value={form.categoryId}
-                        onChange={e => setForm({ ...form, categoryId: e.target.value })}
-                        required
-                        className="w-full border p-2 rounded"
+                    <label className="block mb-1 text-sm font-medium">Каталог</label>
+                    <Select
+                        onValueChange={(val) => setCatalogId(Number(val))}
+                        value={catalogId ? String(catalogId) : ""}
                     >
-                        <option value="">Выберите категорию</option>
-                        {categories.map(cat => (
-                            <option key={cat.id} value={cat.id}>
-                                {cat.name}
-                            </option>
-                        ))}
-                    </select>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Выберите каталог" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {catalogs.map((c) => (
+                                <SelectItem key={c.id} value={String(c.id)}>
+                                    {c.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
-                <textarea
-                    placeholder='Характеристики (JSON, например: {"color":"white"})'
-                    value={form.characteristics}
-                    onChange={e => setForm({ ...form, characteristics: e.target.value })}
-                    className="w-full border p-2 rounded"
-                />
+                {/* Динамические атрибуты */}
+                {attributes.map((attr) => (
+                    <div key={attr.id}>
+                        <label className="block mb-1 text-sm font-medium">{attr.name}</label>
 
-                {error && <div className="text-red-500 text-sm">{error}</div>}
+                        {attr.type === "TEXT" && (
+                            <Input
+                                value={values[attr.id] || ""}
+                                onChange={(e) =>
+                                    setValues({ ...values, [attr.id]: e.target.value })
+                                }
+                            />
+                        )}
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition disabled:opacity-50"
-                >
-                    {loading ? 'Создаём...' : 'Создать продукт'}
-                </button>
-            </form>
-        </div>
-    )
+                        {attr.type === "NUMBER" && (
+                            <Input
+                                type="number"
+                                value={values[attr.id] || ""}
+                                onChange={(e) =>
+                                    setValues({ ...values, [attr.id]: e.target.value })
+                                }
+                            />
+                        )}
+
+                        {attr.type === "DROPDOWN" && (
+                            <Select
+                                onValueChange={(val) =>
+                                    setValues({ ...values, [attr.id]: val })
+                                }
+                                value={values[attr.id] || ""}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Выберите значение" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {attr.options.map((opt) => (
+                                        <SelectItem key={opt} value={opt}>
+                                            {opt}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        )}
+                    </div>
+                ))}
+
+                <Button onClick={handleSubmit}>Сохранить продукт</Button>
+            </CardContent>
+        </Card>
+    );
 }
