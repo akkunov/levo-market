@@ -112,7 +112,7 @@ export default function NewCatalogPage() {
                 <div className="border-t border-gray-300 pt-4">
                     <h3 className="text-sm font-medium mb-2">Создать новый атрибут</h3>
                     <Input placeholder="Имя атрибута" value={newAttrName} onChange={e => setNewAttrName(e.target.value)} />
-                    <Select onValueChange={val => setNewAttrType(val as any)} value={newAttrType}>
+                    <Select onValueChange={(val:"TEXT" | "NUMBER" | "DROPDOWN") => setNewAttrType(val)} value={newAttrType}>
                         <SelectTrigger><SelectValue placeholder="Тип атрибута" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="TEXT">TEXT</SelectItem>

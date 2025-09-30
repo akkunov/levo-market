@@ -7,8 +7,23 @@ export async function GET() {
     return Response.json(products);
 }
 
+type ProductAttributeInput = {
+    attributeId: number;
+    value: string;
+};
+
+type ProductInput = {
+    title: string;
+    price: number;
+    image: string;
+    catalogId: number;
+    attributes?: ProductAttributeInput[];
+};
+
+
+
 export async function POST(req: Request) {
-    const body = await req.json();
+    const body:ProductInput = await req.json();
     const product = await prisma.product.create({
         data: {
             title: body.title,
@@ -16,7 +31,7 @@ export async function POST(req: Request) {
             image: body.image,
             catalogId: body.catalogId,
             attributes: {
-                create: body.attributes?.map((attr: any) => ({
+                create: body.attributes?.map((attr) => ({
                     attributeId: attr.attributeId,
                     value: attr.value,
                 })),

@@ -44,7 +44,7 @@ export default function NewAttributePage() {
 
                 <div>
                     <label className="block mb-1 text-sm font-medium">Тип</label>
-                    <Select onValueChange={val=>setType(val as any)} value={type}>
+                    <Select onValueChange={(val:"TEXT" | "NUMBER" | "DROPDOWN")=>setType(val)} value={type}>
                         <SelectTrigger><SelectValue placeholder="Выберите тип" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="TEXT">Текст</SelectItem>

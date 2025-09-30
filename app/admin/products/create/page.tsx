@@ -73,7 +73,7 @@ export default function NewProductPage() {
             }
         }
 
-        let imageUrl: string | null;
+
 
         // Загрузка на R2
         const formData = new FormData();
@@ -84,7 +84,7 @@ export default function NewProductPage() {
             body: formData,
         });
         const data = await res.json();
-        imageUrl = data.url;
+        const imageUrl: string = data.url;
 
         const productData = {
             title,
