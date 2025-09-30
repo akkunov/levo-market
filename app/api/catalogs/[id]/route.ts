@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
-// GET — получить каталог по id
+
+// GET — получить каталог по id вместе с id связей CatalogAttribute
 export async function GET(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
@@ -8,7 +9,11 @@ export async function GET(
     const { id } = await params;
     const catalog = await prisma.catalog.findUnique({
         where: { id: Number(id) },
-        include: { attributes: { include: { attribute: true } } },
+        include: {
+            attributes: {
+                include: { attribute: true }, // получаем сам атрибут
+            },
+        },
     });
 
     if (!catalog) return new Response("Каталог не найден", { status: 404 });
@@ -17,11 +22,15 @@ export async function GET(
         id: catalog.id,
         name: catalog.name,
         slug: catalog.slug,
-        attributes: catalog.attributes.map(ca => ca.attribute),
+        attributes: catalog.attributes.map(ca => ({
+            catalogAttributeId: ca.id, // id записи связи
+            ...ca.attribute,           // данные атрибута
+        })),
     };
 
     return Response.json(result);
 }
+
 
 // PUT — редактировать каталог
 export async function PUT(

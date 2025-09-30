@@ -15,16 +15,21 @@ export async function POST(req: Request) {
         },
     });
 
-    // Если сразу нужно привязать к каталогам
-    if (body.catalogIds?.length) {
-        for (const catalogId of body.catalogIds) {
-            await prisma.catalogAttribute.create({
-                data: {
-                    catalogId,
-                    attributeId: attribute.id,
-                },
-            });
-        }
+    // Привязка к каталогам
+    const catalogIds: number[] = [];
+
+    if (body.catalogId) catalogIds.push(Number(body.catalogId));
+    if (body.catalogIds && Array.isArray(body.catalogIds)) {
+        catalogIds.push(...body.catalogIds.map(Number));
+    }
+
+    for (const catalogId of catalogIds) {
+        await prisma.catalogAttribute.create({
+            data: {
+                catalogId,
+                attributeId: attribute.id,
+            },
+        });
     }
 
     return Response.json(attribute);

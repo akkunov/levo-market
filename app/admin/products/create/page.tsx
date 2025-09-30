@@ -27,6 +27,8 @@ export default function NewProductPage() {
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [values, setValues] = useState<Record<number, string>>({});
+    const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
 
     // Загружаем все каталоги
     useEffect(() => {
@@ -47,13 +49,48 @@ export default function NewProductPage() {
         }
     }, [catalogId]);
 
+    // Локальное превью изображения
+    useEffect(() => {
+        if (!file) {
+            setPreview(null);
+            return;
+        }
+        const objectUrl = URL.createObjectURL(file);
+        setPreview(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [file]);
+
     const handleSubmit = async () => {
+        // Проверка обязательных полей
+        if (!title.trim()) return alert("Введите название продукта");
+        if (!price.trim() || Number(price) <= 0) return alert("Введите корректную цену");
         if (!catalogId) return alert("Выберите каталог");
+        if (!file) return alert("Выберите изображение");
+
+        for (const attr of attributes) {
+            if (!values[attr.id] || !values[attr.id].trim()) {
+                return alert(`Заполните атрибут: ${attr.name}`);
+            }
+        }
+
+        let imageUrl: string | null;
+
+        // Загрузка на R2
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+        });
+        const data = await res.json();
+        imageUrl = data.url;
 
         const productData = {
             title,
             price: parseFloat(price),
             catalogId,
+            image: imageUrl,
             attributes: Object.entries(values).map(([attributeId, value]) => ({
                 attributeId: Number(attributeId),
                 value,
@@ -67,15 +104,19 @@ export default function NewProductPage() {
         });
 
         alert("Продукт создан ✅");
+
+        // Сброс формы
         setTitle("");
         setPrice("");
         setCatalogId(null);
         setAttributes([]);
         setValues({});
+        setFile(null);
+        setPreview(null);
     };
 
     return (
-        <Card className="max-w-2xl mx-auto mt-10">
+        <Card className="max-w-2xl mx-auto mt-10 space-y-4">
             <CardHeader>
                 <CardTitle>Создать продукт</CardTitle>
             </CardHeader>
@@ -85,6 +126,7 @@ export default function NewProductPage() {
                     placeholder="Название продукта"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                 />
 
                 {/* Цена */}
@@ -93,6 +135,7 @@ export default function NewProductPage() {
                     placeholder="Цена"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                    required
                 />
 
                 {/* Выбор каталога */}
@@ -126,6 +169,7 @@ export default function NewProductPage() {
                                 onChange={(e) =>
                                     setValues({ ...values, [attr.id]: e.target.value })
                                 }
+                                required
                             />
                         )}
 
@@ -136,6 +180,7 @@ export default function NewProductPage() {
                                 onChange={(e) =>
                                     setValues({ ...values, [attr.id]: e.target.value })
                                 }
+                                required
                             />
                         )}
 
@@ -145,6 +190,7 @@ export default function NewProductPage() {
                                     setValues({ ...values, [attr.id]: val })
                                 }
                                 value={values[attr.id] || ""}
+                                required
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Выберите значение" />
@@ -160,6 +206,24 @@ export default function NewProductPage() {
                         )}
                     </div>
                 ))}
+
+                {/* Загрузка изображения */}
+                <div className="space-y-2">
+                    <label className="block mb-1 text-sm font-medium">Изображение</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setFile(e.target.files?.[0] || null)}
+                        required
+                    />
+                    {preview && (
+                        <img
+                            src={preview}
+                            alt="preview"
+                            className="mt-2 h-40 w-40 object-cover rounded"
+                        />
+                    )}
+                </div>
 
                 <Button onClick={handleSubmit}>Сохранить продукт</Button>
             </CardContent>

@@ -10,15 +10,18 @@
     "lint:fix": "eslint --fix",
     "tailwind:build": "tailwindcss -i ./src/styles/globals.css -o ./public/tailwind.css --minify",
     "tailwind:watch": "tailwindcss -i ./src/styles/globals.css -o ./public/tailwind.css --watch",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "shadcn": "shadcn-ui@latest init"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.896.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.16.2",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
