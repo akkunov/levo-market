@@ -2,21 +2,21 @@
 
 import { FC } from "react"
 import { Radio } from "@/app/components/ui/Radio"
-import type { Category } from "@prisma/client"
+import type { Catalog } from "@prisma/client"
 
 type Props = {
-    categories: Category[]
-    selected: string
-    onChange: (val: string) => void
+    categories: Catalog[]
+    selected: string | number
+    action: (val: string | number) => void
 }
 
-export const Filter: FC<Props> = ({ categories, selected, onChange }) => {
+export const Filter: FC<Props> = ({ categories, selected, action }) => {
     return (
         <div className="max-w-[270px] w-full flex flex-col gap-y-2">
             <Radio
                 label="Все"
                 checked={selected === "Все"}
-                onChange={() => onChange("Все")}
+                onChange={() => action("Все")}
                 className="text-nowrap text-base"
             />
             {categories.map(cat => (
@@ -24,7 +24,7 @@ export const Filter: FC<Props> = ({ categories, selected, onChange }) => {
                     key={cat.id}
                     label={cat.name}
                     checked={selected === cat.id}
-                    onChange={() => onChange(cat.id)}
+                    onChange={() => action(cat.id)}
                     className="text-nowrap text-base"
                 />
             ))}
