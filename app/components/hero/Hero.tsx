@@ -81,7 +81,7 @@ export default function Hero() {
                     }`}
                     poster="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/herosdgs.png"
                 >
-                    <source src="/video/bg.mp4" type="video/mp4"/>
+                    <source src="/video/bg.webm" type="video/webm"/>
                 </video>
 
                 {/* Контент поверх */}
