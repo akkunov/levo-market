@@ -137,10 +137,11 @@ export default function ExploreGrid() {
                     <div
                         className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
 
-                        <Link href="/products" className={`bg-gray-300 flex z-20`}>
+                        <Link href="/products" className={`flex z-20`}>
+                            <span className={`text-white flex z-30 absolute bottom-6 text-base md:text-2xl `}>Стиральные машины</span>
                             <Image
                                 src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg"
-                                alt="Холодильники Levo"
+                                alt="Стиральные машины"
                                 className="object-cover z-10 absolute"
                                 fill
                                 sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"
@@ -149,34 +150,48 @@ export default function ExploreGrid() {
                     </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image
-                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/bda02c06-4e5f-4d46-b0f7-8b2f4a4cb5c5-fridge.png'}
-                        alt={'Холодильники Levo'} className="object-cover" fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <Link href={'/products'} className={`z-20 text-white bottom-2 w-auto h-4 md:h-8 place-self-end text-base`}>Холодильники
-                        Levo</Link>
+                    <Link href={'/products'} className={`flex z-20`}>
+                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}> Холодильники
+                            Levo</span>
+                        <Image
+                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/bda02c06-4e5f-4d46-b0f7-8b2f4a4cb5c5-fridge.png'}
+                            alt={'Холодильники Levo'} className="object-cover" fill
+                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    </Link>
+
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
-                    <Image
-                        src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp'}
-                        alt={'Кондиционеры Levo'} className="object-cover" fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Кондиционеры
-                        Levo</Link>
+                    <Link className={`flex z-20`} href={'/products'}>
+                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Кондиционеры
+                            Levo </span>
+                        <Image
+                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp'}
+                            alt={'Кондиционеры Levo'} className="object-cover" fill
+                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    </Link>
+
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png'} alt={'Духовые шкафы'} className="object-cover" fill
-                           sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Духовые
-                        шкафы</Link>
+                    <Link  className={`flex z-20`} href={'/products'}>
+                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Духовые
+                            шкафы</span>
+                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png'} alt={'Духовые шкафы'} className="object-cover" fill
+                               sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    </Link>
+
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/d91a44a5-81ef-4e87-a075-defad0fad003-dask.png'} alt={'Варочные поверхности'} className="object-cover" fill
-                           sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
-                    <Link href={'/products'} className={`z-20 text-white bottom-0 w-auto h-4 md:h-8 place-self-end text-base`}>Варочные поверхности</Link>
+                    <Link className={`flex z-20`}  href={'/products'}>
+                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>
+                            Варочные поверхности
+                        </span>
+                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/d91a44a5-81ef-4e87-a075-defad0fad003-dask.png'} alt={'Варочные поверхности'} className="object-cover" fill
+                               sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
+                    </Link>
+
                 </div>
             </div>
 

@@ -15,41 +15,49 @@ export async function GET(
     return Response.json(product);
 }
 
-// PUT — редактирование продукта
+
+
 export async function PUT(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    const body = await req.json(); // { title?, price?, attributeValues? }
+    const body = await req.json(); // { title, price, image, catalogId, attributes }
 
-    const product = await prisma.product.update({
+    // Обновляем основные поля продукта
+    const updatedProduct = await prisma.product.update({
         where: { id: Number(id) },
         data: {
             title: body.title,
             price: body.price,
             image: body.image,
+            catalogId: body.catalogId,
         },
+        include: { catalog: true, attributes: { include: { attribute: true } } },
     });
 
-    if (body.attributeValues) {
-        // удаляем старые значения
-        await prisma.productAttributeValue.deleteMany({ where: { productId: Number(id) } });
+    if (body.attributes && body.attributes.length > 0) {
+        // Удаляем старые значения атрибутов
+        await prisma.productAttributeValue.deleteMany({
+            where: { productId: Number(id) },
+        });
 
-        // создаем новые значения
-        for (const val of body.attributeValues) {
-            await prisma.productAttributeValue.create({
-                data: {
-                    productId: Number(id),
-                    attributeId: val.attributeId,
-                    value: val.value,
-                },
-            });
-        }
+        // Создаём новые значения атрибутов
+        const valuesToCreate = body.attributes.map((attr: { attributeId: number; value: string }) => ({
+            productId: Number(id),
+            attributeId: attr.attributeId,
+            value: attr.value,
+        }));
+
+        await prisma.productAttributeValue.createMany({
+            data: valuesToCreate,
+        });
     }
 
-    return Response.json(product);
+    return Response.json(updatedProduct);
 }
+
+
 
 // DELETE — удалить продукт
 export async function DELETE(

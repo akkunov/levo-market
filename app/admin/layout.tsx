@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { FaBox, FaTags, FaAddressBook, FaSignOutAlt } from "react-icons/fa";
 import {CiMenuFries} from "react-icons/ci";
 import {GoShareAndroid} from "react-icons/go";
+import Link from "next/link";
 
 type MenuItem = {
     name: string;
@@ -54,16 +55,18 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         {menu.map((item) => (
                             <Tooltip key={item.path}>
                                 <TooltipTrigger asChild>
-                                    <Button
-                                        variant={pathname === item.path ? "default" : "ghost"}
-                                        className={`w-full justify-start gap-2 px-4 py-2 rounded ${
-                                            pathname === item.path && !collapsed ? "bg-[#003F62] text-white" : ""
-                                        }`}
-                                        onClick={() => router.push(item.path)}
-                                    >
-                                        {item.icon}
-                                        {!collapsed && <span>{item.name}</span>}
-                                    </Button>
+                                    <Link href={item.path}>
+                                        <Button
+                                            variant={pathname === item.path ? "default" : "ghost"}
+                                            className={`w-full justify-start gap-2 px-4 py-2 rounded ${
+                                                pathname === item.path && !collapsed ? "bg-[#003F62] text-white" : ""
+                                            }`}
+                                        >
+                                            {item.icon}
+                                            {!collapsed && <span>{item.name}</span>}
+                                        </Button>
+                                    </Link>
+
                                 </TooltipTrigger>
                                 {collapsed && (
                                     <TooltipContent>
@@ -87,10 +90,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </aside>
 
             {/* Main content */}
-            <main className="flex-1 lg:p-6 p-2  ">{children}</main>
+            <main className="flex-1 p-2 overflow-x-auto">{children}</main>
 
             {/* Bottom navigation mobile (<md) */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-[#FAFAFA] border-t border-gray-300 flex justify-around md:hidden h-16 items-center">
+            <nav className="fixed bottom-0 left-0 right-0 bg-[#FAFAFA] border-t border-gray-300 flex justify-around md:hidden h-12 items-center">
                 <TooltipProvider>
                     {menu.map((item) => (
                         <Tooltip key={item.path}>

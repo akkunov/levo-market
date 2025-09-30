@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-// import { useRouter } from "next/navigation";
+import {useEffect, useState} from "react";
+import {Card, CardTitle, CardContent} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 type Product = {
     id: number;
     title: string;
     price: number;
-    image:string;
-    catalogId:number;
+    image: string;
+    catalogId: number;
     catalog: {
         id: number;
         name: string;
-        slug:string;
+        slug: string;
     };
     attributes: {
         id: number;
@@ -32,7 +33,7 @@ type Product = {
 export default function ProductsAdmin() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
-    // const router = useRouter();
+    const router = useRouter();
 
     useEffect(() => {
         fetch("/api/products")
@@ -43,27 +44,28 @@ export default function ProductsAdmin() {
             });
     }, []);
 
-    // const handleDelete = async (id: number) => {
-    //     if (!confirm("Удалить этот продукт?")) return;
-    //     await fetch(`/api/products/${id}`, { method: "DELETE" });
-    //     setProducts(products.filter((p) => p.id !== id));
-    // };
+    const handleDelete = async (id: number) => {
+        if (!confirm("Удалить этот продукт?")) return;
+        await fetch(`/api/products/${id}`, {method: "DELETE"});
+        setProducts(products.filter((p) => p.id !== id));
+    };
 
     if (loading) return <div>Загрузка...</div>;
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center lg:p-4">
             {products.map((product) => (
-                <Card key={product.id} className={`min-w-48 w-[298px] h-[460px] border-[1px] border-gray-300 shadow-none hover:shadow hover:border-none`}>
-                    <CardContent className="p-4 flex flex-col items-center justify-between text-start gap-4 w-[298px] h-[460px]">
+                <Card key={product.id}
+                      className={`min-w-48 w-[298px] h-[460px] border-[1px] border-gray-300 shadow-none hover:shadow hover:border-none`}>
+                    <CardContent
+                        className="p-4 flex flex-col items-center justify-between text-start gap-4 w-[298px] h-[460px]">
                         <div className={`relative w-full h-[280px] mt-6 place-content-start `}>
                             <Image src={product.image} alt={product.title}
                                    className="object-cover" fill/>
                         </div>
                         <div className={`w-full`}>
                             <span className={`text-[12px] text-gray-500`}>{product.catalog.name}</span>
-                            <CardTitle className={`text-[15px] font-normal`}>Стиральная машина ARG
-                                JG60-A112VE</CardTitle>
+                            <CardTitle className={`text-[15px] font-normal`}>{product.title}</CardTitle>
                         </div>
                         <div className={`w-full flex flex-col gap-3`}>
                             <div className={`flex flex-row justify-between items-center`}>
@@ -72,8 +74,12 @@ export default function ProductsAdmin() {
                               </span>
                                 <span className={`text-[#232d51] text-[13px]`}>Eсть в наличии</span>
                             </div>
+                            <Link href={`/admin/products/${product.id}`}>
                                 <Button className={`rounded-sm px-4 w-full`}>Редактировать</Button>
-                                <Button className={`rounded-sm px-4 w-full bg-[#d71a21] hover:bg-[#f42736]`}>Удалить</Button>
+                            </Link>
+                                <Button
+                                    className={`rounded-sm px-4 w-full bg-[#d71a21] hover:bg-[#f42736]`}
+                                    onClick={() => handleDelete(product.id)}>Удалить</Button>
                         </div>
                     </CardContent>
                 </Card>
