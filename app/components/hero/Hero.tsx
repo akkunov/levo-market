@@ -76,7 +76,7 @@ export default function Hero() {
                     muted
                     playsInline
                     loop
-                    className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
+                    className={`absolute top-0 right-0 w-full h-full object-cover transition-opacity duration-700 ${
                         isDomReady ? "opacity-100" : "opacity-0"
                     }`}
                     poster="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/herosdgs.png"
@@ -87,7 +87,7 @@ export default function Hero() {
                 {/* Контент поверх */}
                 <button
                     onClick={toggleVideo}
-                    className="z-20 absolute bottom-6 left-6 p-3 bg-black/50 text-white rounded-full text-2xl hover:bg-black/70 transition"
+                    className="z-20 absolute bottom-6 right-10 p-3 bg-black/50 text-white rounded-full text-2xl hover:bg-black/70 transition"
                 >
                     {isVideoPlaying ? <BsPauseFill/> : <BsPlayFill/>}
                 </button>
