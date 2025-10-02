@@ -75,7 +75,7 @@ export default function NewAttributePage() {
                 <div>
                     <label className="block mb-1 text-sm font-medium">Тип</label>
                     <Select
-                        onValueChange={(val) => setValue("type", val as any)}
+                        onValueChange={(val:"TEXT" | "NUMBER" | "DROPDOWN") => setValue("type", val)}
                         value={watch("type") || "TEXT"}
                     >
                         <SelectTrigger>
