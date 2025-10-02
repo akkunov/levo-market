@@ -5,8 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { FaBox, FaTags, FaAddressBook, FaSignOutAlt } from "react-icons/fa";
-import {CiMenuFries} from "react-icons/ci";
+import { FaBox, FaAddressBook, FaSignOutAlt } from "react-icons/fa";
+import {CiGrid41, CiMenuFries} from "react-icons/ci";
 import {GoShareAndroid} from "react-icons/go";
 import Link from "next/link";
 
@@ -17,8 +17,8 @@ type MenuItem = {
 };
 
 const menu: MenuItem[] = [
-    { name: "Продукты", path: "/admin/products", icon: <FaBox /> },
-    { name: "Категории", path: "/admin/catalogs", icon: <FaTags /> },
+    { name: "Продукты", path: "/admin/products", icon: <FaBox  width={`50px`}/> },
+    { name: "Категории", path: "/admin/catalogs", icon: <CiGrid41 /> },
     { name: "Контакты", path: "/admin/contacts", icon: <FaAddressBook /> },
     { name: "Атрибуты", path: "/admin/attributes", icon: <GoShareAndroid /> },
 ];
@@ -90,7 +90,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </aside>
 
             {/* Main content */}
-            <main className="flex-1 p-2 overflow-x-auto">{children}</main>
+            <main className="flex-1 overflow-x-auto pb-12 md:pb-0">{children}</main>
 
             {/* Bottom navigation mobile (<md) */}
             <nav className="fixed bottom-0 left-0 right-0 bg-[#FAFAFA] border-t border-gray-300 flex justify-around md:hidden h-12 items-center">

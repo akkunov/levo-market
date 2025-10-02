@@ -140,7 +140,7 @@ export default function ExploreGrid() {
                         <Link href="/products" className={`flex z-20`}>
                             <span className={`text-white flex z-30 absolute bottom-6 text-base md:text-2xl `}>Стиральные машины</span>
                             <Image
-                                src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/63ccc1a6-81b5-444f-b3e6-bb382241d39f-wash.jpg"
+                                src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/WhatsApp%20Image%202025-10-01%20at%2008.09.00.jpeg"
                                 alt="Стиральные машины"
                                 className="object-cover z-10 absolute"
                                 fill
@@ -154,7 +154,7 @@ export default function ExploreGrid() {
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}> Холодильники
                             Levo</span>
                         <Image
-                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/bda02c06-4e5f-4d46-b0f7-8b2f4a4cb5c5-fridge.png'}
+                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/ChatGPT%20Image%201%20%D0%BE%D0%BA%D1%82.%202025%20%D0%B3.%2C%2011_21_08.png'}
                             alt={'Холодильники Levo'} className="object-cover" fill
                             sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
                     </Link>
@@ -163,11 +163,11 @@ export default function ExploreGrid() {
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
                     <Link className={`flex z-20`} href={'/products'}>
-                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Кондиционеры
+                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Морозильные лари LEVO
                             Levo </span>
                         <Image
-                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/c7fdf589-076b-4188-aa83-a91b7f47845e-condationare.webp'}
-                            alt={'Кондиционеры Levo'} className="object-cover" fill
+                            src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/0b1280a7-115f-4199-8045-0f2b21753e20.jpg'}
+                            alt={'Морозильные лари'} className="object-cover" fill
                             sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
                     </Link>
 
@@ -175,9 +175,8 @@ export default function ExploreGrid() {
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Link  className={`flex z-20`} href={'/products'}>
-                        <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Духовые
-                            шкафы</span>
-                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/119f7310-a97e-48ae-a226-8f64f47494fe-oven.png'} alt={'Духовые шкафы'} className="object-cover" fill
+                        <span className={`text-black flex z-30 absolute bottom-6 text-base`}>Кондиционеры LEVO</span>
+                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/WhatsApp%20Image%202025-10-01%20at%2011.42.48.jpeg'} alt={'Кондиционеры LEVO'} className="object-cover" fill
                                sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
                     </Link>
 
@@ -186,9 +185,9 @@ export default function ExploreGrid() {
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Link className={`flex z-20`}  href={'/products'}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>
-                            Варочные поверхности
+                            Встраиваемые техники LEVO
                         </span>
-                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/d91a44a5-81ef-4e87-a075-defad0fad003-dask.png'} alt={'Варочные поверхности'} className="object-cover" fill
+                        <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/wwitxv1fuuhn5thn2i84i1l6jmb5gh37.jpg'} alt={'встраиваемый техника'} className="object-cover" fill
                                sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
                     </Link>
 

@@ -8,7 +8,11 @@ export async function GET(
     const { id } = await params;
     const product = await prisma.product.findUnique({
         where: { id: Number(id) },
-        include: { attributes: { include: { attribute: true } } },
+        include: {
+            catalog:true,
+            attributes: { include: { attribute: true } },
+        },
+
     });
     if (!product) return new Response("Продукт не найден", { status: 404 });
 

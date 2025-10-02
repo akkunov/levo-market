@@ -1,9 +1,36 @@
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
-    const attributes = await prisma.attribute.findMany();
-    return Response.json(attributes);
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const page = Number(searchParams.get("page") || "1"); // текущая страница
+    const limit = Number(searchParams.get("limit") || "12"); // кол-во карточек на страницу
+
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+        prisma.attribute.findMany({
+            skip,
+            take: limit,
+            orderBy: { id: "desc" }, // сортировка (по id или createdAt)
+            select: {
+                id: true,
+                name: true,
+                type: true,
+                options: true,
+            },
+        }),
+        prisma.attribute.count(),
+    ]);
+
+    return Response.json({
+        items,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+    });
 }
+
 
 export async function POST(req: Request) {
     const body = await req.json();

@@ -4,7 +4,6 @@ import { FC, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { PiPhone } from "react-icons/pi";
 import { usePathname } from "next/navigation";
 import Container from "@/app/components/container/Container";
 
@@ -62,23 +61,21 @@ export const Header: FC = () => {
                             alt="logo"
                             width={50}
                             height={50}
-                            className="w-[25px] h-[25px] md:w-[25px] md:h-[25px] scale-300"
+                            className="w-[25px] h-[25px] md:w-[25px] md:h-[25px] scale-300 mr-10"
                         />
                     </Link>
 
-                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-end md:items-center text-sm md:text-base">
-                        {/*<a*/}
-                        {/*    href="tel:+996776666878"*/}
-                        {/*    className="flex items-center gap-1 hover:text-blue-500"*/}
-                        {/*>*/}
-                        {/*    <PiPhone /> 0776 666 878*/}
-                        {/*</a>*/}
-                        {/*<a*/}
-                        {/*    href="tel:+996776666878"*/}
-                        {/*    className="flex items-center gap-1 hover:text-blue-500"*/}
-                        {/*>*/}
-                        {/*    <PiPhone /> 0776 666 878*/}
-                        {/*</a>*/}
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-end md:items-center text-sm md:text-base w-8 h-4">
+                        <a
+                            href="tel:+996776666878"
+                            className="flex items-center gap-1 hover:text-blue-500"
+                        >
+                        </a>
+                        <a
+                            href="tel:+996776666878"
+                            className="flex items-center gap-1 hover:text-blue-500"
+                        >
+                        </a>
                     </div>
                 </Container>
             </header>

@@ -52,8 +52,6 @@ export default function CatalogsPage() {
                 <Button variant={'default'}
                  onClick={() => router.push('catalogs/create')}>Создать каталог <GoPlus /></Button>
             </div>
-
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                 {catalogs.map((catalog) => (
                     <Card key={catalog.id} className="shadow-md min-w-52">

@@ -1,75 +1,115 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState, useRef } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Input} from "@/components/ui/input";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import { GoPlus } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
+type Attribute = {
+    id: number;
+    name: string;
+    type: string;
+    options: string[];
+};
 
-type Catalog = { id: number; name: string };
+export default function AttributesList() {
+    const [attributes, setAttributes] = useState<Attribute[]>([]);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
+    const observerRef = useRef<HTMLDivElement | null>(null);
+    const observerInstance = useRef<IntersectionObserver | null>(null);
 
-export default function NewAttributePage() {
-    const [name, setName] = useState("");
-    const [type, setType] = useState<"TEXT"|"NUMBER"|"DROPDOWN">("TEXT");
-    const [options, setOptions] = useState("");
-    const [catalogs, setCatalogs] = useState<Catalog[]>([]);
-    const [catalogId, setCatalogId] = useState<number | null>(null);
+    const fetchAttributes = async () => {
+        if (loading || !hasMore) return;
+        setLoading(true);
 
-    useEffect(() => {
-        fetch("/api/catalogs").then(res=>res.json()).then(setCatalogs);
-    }, []);
+        const res = await fetch(`/api/attributes?page=${page}&limit=9`);
+        const data = await res.json();
 
-    const handleSubmit = async () => {
-        if (!catalogId) return alert("Выберите каталог");
-        await fetch("/api/attributes", {
-            method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify({
-                name,
-                type,
-                options: type === "DROPDOWN" ? options.split(",").map(o=>o.trim()) : [],
-                catalogId
-            })
+        // фильтруем дубликаты по id
+        setAttributes(prev => {
+            const newItems = data.items.filter((item: Attribute) => !prev.some(a => a.id === item.id));
+            return [...prev, ...newItems];
         });
-        alert("Атрибут создан ✅");
-        setName(""); setOptions("");
+
+        setPage(prev => prev + 1);
+        setHasMore(page < data.totalPages);
+        setLoading(false);
     };
 
-    return (
-        <Card className="max-w-md mx-auto mt-10">
-            <CardHeader><CardTitle>Создать атрибут</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-                <Input placeholder="Название атрибута" value={name} onChange={e=>setName(e.target.value)} />
+    useEffect(() => {
+        fetchAttributes();
+    }, []);
 
-                <div>
-                    <label className="block mb-1 text-sm font-medium">Тип</label>
-                    <Select onValueChange={(val:"TEXT" | "NUMBER" | "DROPDOWN")=>setType(val)} value={type}>
-                        <SelectTrigger><SelectValue placeholder="Выберите тип" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="TEXT">Текст</SelectItem>
-                            <SelectItem value="NUMBER">Число</SelectItem>
-                            <SelectItem value="DROPDOWN">Выпадающий список</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+    useEffect(() => {
+        if (!observerRef.current) return;
 
-                {type === "DROPDOWN" && (
-                    <Input placeholder="Опции через запятую" value={options} onChange={e=>setOptions(e.target.value)} />
-                )}
+        // уничтожаем предыдущий observer, если есть
+        if (observerInstance.current) observerInstance.current.disconnect();
 
-                <div>
-                    <label className="block mb-1 text-sm font-medium">Каталог</label>
-                    <Select onValueChange={val=>setCatalogId(Number(val))} value={catalogId ? String(catalogId) : ""}>
-                        <SelectTrigger><SelectValue placeholder="Выберите каталог" /></SelectTrigger>
-                        <SelectContent>
-                            {catalogs.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>)}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <Button onClick={handleSubmit}>Сохранить атрибут</Button>
-            </CardContent>
-        </Card>
+        observerInstance.current = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasMore && !loading) {
+                    fetchAttributes();
+                }
+            },
+            { threshold: 1.0 }
         );
-};
+
+        observerInstance.current.observe(observerRef.current);
+
+        return () => observerInstance.current?.disconnect();
+    }, [hasMore, loading]);
+
+    async function handleDelete (id:number) {
+            fetch(`/api/attributes/${id}`,{
+                method:'DELETE'
+            })
+                .then(_ => {
+                    setAttributes(prev => {
+                        const newItems = prev.filter((item: Attribute) => item.id != id);
+                        return [...newItems];
+                    });
+                })
+    }
+    return (
+        <>
+            <div className="w-full flex flex-row justify-between">
+                <h1 className="text-2xl font-bold mb-6">Атрибуты</h1>
+                <Button variant="default" onClick={() => router.push('attributes/create')}>
+                    <GoPlus /> Создать атрибут
+                </Button>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                {attributes.map(attr => (
+                    <Card key={attr.id} className="shadow-md min-w-52">
+                        <CardHeader>
+                            <CardTitle>{attr.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-muted-foreground">Тип: {attr.type}</p>
+                            {attr.options.length > 0 && (
+                                <ul className="text-xs mt-2">
+                                    {attr.options.map((opt, i) => (
+                                        <li key={i}>• {opt}</li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            <Button onClick={() => handleDelete(attr.id)}>Удалить</Button>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+
+            <div ref={observerRef} className="h-10" />
+
+            {loading && <p className="text-center mt-4">Загрузка...</p>}
+        </>
+    );
+}

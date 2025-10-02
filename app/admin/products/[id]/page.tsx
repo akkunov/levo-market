@@ -61,8 +61,6 @@ export default function EditProductPage() {
                 });
                 setValues(vals);
             });
-
-        fetch("/api/catalogs").then((res) => res.json()).then(setCatalogs);
     }, [productId]);
 
     // Подгрузка атрибутов выбранного каталога
@@ -138,12 +136,43 @@ export default function EditProductPage() {
 
                     <div>
                         <label className="block mb-1 text-sm font-medium">Каталог</label>
-                        <Select onValueChange={val => setCatalogId(Number(val))} value={catalogId ? String(catalogId) : ""}>
+                        <Select
+                            value={String(product.catalog.id)} // сразу текущий каталог
+                            onValueChange={val => {
+                                // Если пользователь меняет каталог, можно подгружать все остальные каталоги
+                                const selectedId = Number(val);
+                                if (selectedId !== product.catalog.id && catalogs.length === 0) {
+                                    fetch("/api/catalogs")
+                                        .then(res => res.json())
+                                        .then((data: Catalog[]) => setCatalogs(data));
+                                }
+                                setCatalogId(selectedId);
+                            }}
+                            onOpenChange={() => {
+                                if (catalogs.length === 0) {
+                                    fetch("/api/catalogs")
+                                        .then(res => res.json())
+                                        .then((data: Catalog[]) => setCatalogs(data));
+                                }
+                            }}
+                        >
                             <SelectTrigger>
                                 <SelectValue placeholder="Выберите каталог" />
                             </SelectTrigger>
                             <SelectContent>
-                                {catalogs.map(c => <SelectItem key={c.id} value={String(c.id)}>{c.name}</SelectItem>)}
+                                {/* показываем текущий каталог */}
+                                <SelectItem key={product.catalog.id} value={String(product.catalog.id)}>
+                                    {product.catalog.name}
+                                </SelectItem>
+
+                                {/* остальные каталоги */}
+                                {catalogs
+                                    .filter(c => c.id !== product.catalog.id)
+                                    .map(c => (
+                                        <SelectItem key={c.id} value={String(c.id)}>
+                                            {c.name}
+                                        </SelectItem>
+                                    ))}
                             </SelectContent>
                         </Select>
                     </div>

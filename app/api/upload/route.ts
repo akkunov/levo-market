@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import {S3Client, PutObjectCommand, DeleteObjectCommand} from '@aws-sdk/client-s3'
 import { randomUUID } from 'crypto'
 
 const s3 = new S3Client({
@@ -39,5 +39,32 @@ export async function POST(req: Request) {
     } catch (err) {
         console.error(err)
         return NextResponse.json({ error: 'Ошибка при загрузке' }, { status: 500 })
+    }
+}
+
+
+export async function DELETE(req: Request) {
+    try {
+        const { url } = await req.json();
+
+        if (!url) {
+            return NextResponse.json({ error: "URL не указан" }, { status: 400 });
+        }
+
+        // Получаем ключ объекта из полного URL
+        const bucketUrl = process.env.PUB_ENDPOINT!;
+        const key = url.replace(`${bucketUrl}/`, "");
+
+        await s3.send(
+            new DeleteObjectCommand({
+                Bucket: process.env.R2_BUCKET_NAME!,
+                Key: key,
+            })
+        );
+
+        return NextResponse.json({ message: "Файл удалён" });
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json({ error: "Ошибка при удалении файла" }, { status: 500 });
     }
 }

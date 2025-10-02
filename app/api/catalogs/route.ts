@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-    const catalogs = await prisma.catalog.findMany({
-        include: { attributes: { include: { attribute: true } } },
-    });
+    const catalogs = await prisma.catalog.findMany();
     return Response.json(catalogs);
 }
 
