@@ -1,3 +1,6 @@
+import {Property} from "csstype";
+import Float = Property.Float;
+
 export type Items = {
     id: number;
     name: string;
@@ -24,3 +27,18 @@ export type Catalog = {
     slug: string;
     attributes: CatalogAttribute[];
 };
+
+export type ProductItems = {
+    id:number;
+    title:string;
+    catalogId: number;
+    image:string;
+    price: Float;
+    catalog: Omit<Catalog, "attributes">
+}
+export type Product = {
+    items: ProductItems[];
+    limit: number;
+    total: number;
+    totalPages:number;
+}

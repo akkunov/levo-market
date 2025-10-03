@@ -35,7 +35,7 @@ export default function ProductsAdmin() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("/api/products")
+        fetch("/api/admin/products")
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data);
@@ -76,7 +76,7 @@ export default function ProductsAdmin() {
                             className="p-4 flex flex-col items-center justify-between text-start gap-4 w-[298px] h-[460px]">
                             <div className={`relative w-full h-[280px] mt-6 place-content-start `}>
                                 <Image src={product.image} alt={product.title}
-                                       className="object-cover" fill/>
+                                       className="object-contain" fill/>
                             </div>
                             <div className={`w-full`}>
                                 <span className={`text-[12px] text-gray-500`}>{product.catalog.name}</span>

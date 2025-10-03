@@ -1,10 +1,35 @@
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
-    const products = await prisma.product.findMany({
-        include: { catalog: true, attributes: { include: { attribute: true } } },
+export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+
+    const categoryId = searchParams.get("categoryId");
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "12", 10);
+
+    const skip = (page - 1) * limit;
+
+    const where = categoryId ? { catalogId: Number(categoryId) } : {};
+
+    const [products, total] = await Promise.all([
+        prisma.product.findMany({
+            where,
+            include: { catalog: true },
+            skip,
+            take: limit,
+            orderBy: { id: "desc" },
+        }),
+        prisma.product.count({ where }),
+    ]);
+
+    return Response.json({
+        items: products,
+        page,
+        total,
+        limit,
+        totalPages: Math.ceil(total / limit),
     });
-    return Response.json(products);
 }
 
 type ProductAttributeInput = {

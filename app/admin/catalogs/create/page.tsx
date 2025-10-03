@@ -1,7 +1,4 @@
-"use client";
-
-
-
+'use client'
 import {CatalogForm, Items} from "@/app/components/catalogForm/CatalogForm";
 
 export default function NewCatalogPage() {
