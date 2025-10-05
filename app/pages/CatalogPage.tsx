@@ -133,8 +133,8 @@ export default function CatalogPage() {
                                     alt={p.title}
                                     className="w-full h-40 object-contain rounded-md"
                                 />
-                                <h2 className="mt-2 font-semibold">{p.title}</h2>
-                                <span>{p.price} KGS</span>
+                                <span className="mt-2 text-[12px] text-white/70">{p.catalog.name}</span>
+                                <h2 className="font-semibold">{p.title}</h2>
                             </div>
                         ))}
                 </div>
