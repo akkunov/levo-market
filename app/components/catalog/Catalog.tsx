@@ -160,7 +160,7 @@ export default function ExploreGrid() {
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
-                    <Link className={`flex z-20`} href={'/catalogs/morozilnye-lari'}>
+                    <Link className={`flex z-20`} href={'/catalogs/Morozilnik'}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Морозильные лари LEVO</span>
                         <Image
                             src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/0b1280a7-115f-4199-8045-0f2b21753e20.jpg'}

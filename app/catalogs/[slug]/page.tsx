@@ -9,7 +9,6 @@ import {useParams} from "next/navigation";
 export default function CatalogSlugPage() {
     const params = useParams<{slug: string;}>()
     const {slug} = params;
-    console.log(slug)
     return <Suspense fallback={<Spinner />}>
         <CatalogPage slug={slug}/>
     </Suspense>
