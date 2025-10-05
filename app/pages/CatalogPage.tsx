@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Catalog, ProductItems } from "@/app/admin/types";
+import {ParamValue} from "next/dist/server/request/params";
+import Link from "next/link";
 
 const fetchCategories = async (): Promise<Catalog[]> => {
     const res = await fetch("/api/catalogs");
@@ -27,10 +29,9 @@ const fetchProducts = async ({
     return res.json();
 };
 
-export default function CatalogPage() {
+export default function CatalogPage({slug}: {slug?:ParamValue}) {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const selectedSlug = searchParams.get("slug") || null;
+    const selectedSlug = slug
 
     // Получаем категории один раз
     const { data: categories = [] } = useQuery<Catalog[]>({
@@ -46,7 +47,6 @@ export default function CatalogPage() {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-        refetch, // вот так
     } = useInfiniteQuery({
         queryKey: ["products", selectedSlug],
         queryFn: ({ pageParam = 1 }) =>
@@ -74,9 +74,8 @@ export default function CatalogPage() {
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const handleSelectCategory = (slug: string | null) => {
-        router.push(`/catalogs${slug ? `?slug=${slug}` : ""}`);
-        refetch(); // Подгрузить новые товары для выбранного каталог// а
-        console.log(products)
+        router.push(`/catalogs/${slug ? slug : ""}`);
+        console.log(selectedSlug)
     };
 
     return (
@@ -127,15 +126,18 @@ export default function CatalogPage() {
                             </div>
                         ))
                         : products.map((p) => (
-                            <div key={p.id} className="border rounded-lg p-2 flex flex-col">
-                                <img
-                                    src={p.image || ""}
-                                    alt={p.title}
-                                    className="w-full h-40 object-contain rounded-md"
-                                />
-                                <span className="mt-2 text-[12px] text-black">{p.catalog.name}</span>
-                                <h2 className="font-semibold">{p.title}</h2>
-                            </div>
+                            <Link href={`${selectedSlug}/${p.id}`} key={p.id}>
+                                <div key={p.id} className="border rounded-lg p-2 flex flex-col">
+                                    <img
+                                        src={p.image || ""}
+                                        alt={p.title}
+                                        className="w-full h-40 object-contain rounded-md"
+                                    />
+                                    <span className="mt-2 text-[12px] text-black">{p.catalog.name}</span>
+                                    <h2 className="font-semibold">{p.title}</h2>
+                                </div>
+                            </Link>
+
                         ))}
                 </div>
 

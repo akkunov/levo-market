@@ -28,6 +28,19 @@ export type Catalog = {
     attributes: CatalogAttribute[];
 };
 
+type productAttributes = {
+    id: number;
+    productId: number;
+    attributeId: number;
+    value: string;
+    attribute: {
+        id: number;
+        name: string;
+        type: string;
+        options: string[];
+    };
+}
+
 export type ProductItems = {
     id:number;
     title:string;
@@ -35,6 +48,7 @@ export type ProductItems = {
     image:string;
     price: Float;
     catalog: Omit<Catalog, "attributes">
+    attributes?:productAttributes[];
 }
 export type Product = {
     items: ProductItems[];

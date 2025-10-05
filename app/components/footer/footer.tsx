@@ -3,7 +3,7 @@ import Container from "@/app/components/container/Container";
 import Link from "next/link";
 import {mockCategories} from "@/app/components/catalog/Catalog";
 import {BsInstagram} from "react-icons/bs";
-import {SiTelegram, SiWhatsapp} from "react-icons/si";
+import {SiTelegram} from "react-icons/si";
 
 export const Footer: FC = () => {
     return (
@@ -31,29 +31,11 @@ export const Footer: FC = () => {
                         </li>
                         <li>
                             <Link
-                                href="https://wa.me/+996776666878"
-                                className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
-                                target={'_blank'}
-                            >
-                                WhatsApp <SiWhatsapp />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
                                 href="mailto:akunov313131@gmail.com"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
                                 target={'_blank'}
                             >
                                 Levo@meraket.com
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="tel:+996776666878"
-                                className="inline-flex items-center gap-2 hover:underline hover:text-gray-300 whitespace-pre-wrap"
-                            >
-                                По любым вопросам звоните:
-                                776 666 878
                             </Link>
                         </li>
                     </ul>

@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 
 import ReactQueryProvider from "@/app/hoc/ReactQueryProvider";
 import {Header} from "@/app/components/header/Header";
+import Container from "@/app/components/container/Container";
 
 interface CatalogLayoutProps {
     children: ReactNode;
@@ -17,7 +18,12 @@ export default function CatalogLayout({ children }: CatalogLayoutProps) {
     return (
         <ReactQueryProvider>
             <Header />
-                <main className="col-span-12 md:col-span-9 mt-12">{children}</main>
+                <main className="mt-12">
+                    <Container className={`mx-auto`}>
+                        {children}
+                    </Container>
+
+                </main>
         </ReactQueryProvider>
 
     );
