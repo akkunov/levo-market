@@ -30,8 +30,8 @@ export const Header: FC = () => {
 
     const links = [
         { href: "/", label: "Главная" },
-        { href: "/products", label: "Продукты" },
-        { href: "/#contacts", label: "Контакты" },
+        { href: "/catalogs", label: "Продукты" },
+        { href: "/contacts", label: "Контакты" },
         { href: "/login", label: "Войти" },
     ];
 
@@ -45,7 +45,7 @@ export const Header: FC = () => {
     return (
         <>
             <header
-                className={`fixed top-0 left-0 w-full z-40 shadow-md transition-all duration-300 bg-gray-900/50 backdrop-blur-md text-white`}
+                className={`fixed top-0 left-0 w-full z-40 shadow-md transition-all duration-300 bg-[#101828] text-white`}
             >
                 <Container className="max-w-7xl mx-auto flex items-center justify-between px-2 py-2 md:py-4">
                     <div className="flex items-center gap-2">

@@ -17,9 +17,9 @@ export default function CatalogLayout({ children }: CatalogLayoutProps) {
 
     return (
         <ReactQueryProvider>
-            <Header />
-                <main className="mt-12">
-                    <Container className={`mx-auto`}>
+            <Header/>
+                <main>
+                    <Container className={`mx-auto pt-16`}>
                         {children}
                     </Container>
 

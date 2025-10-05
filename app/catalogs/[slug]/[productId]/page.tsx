@@ -7,13 +7,14 @@ import Image from "next/image";
 import {Skeleton} from "@/components/ui/skeleton";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
+import {IoIosArrowRoundBack} from "react-icons/io";
 
 export default function Product(){
     const [loading, setLoading] = useState(false);
     const [productItem, setProductItem] = useState<ProductItems>();
     const [related, setRelated] = useState<Product>();
     const [loadingRelated, setLoadingRelated] = useState(false);
-    const router = useRouter();
+    const router = useRouter()
 
     const params = useParams<{productId: string;}>()
     const { productId} = params
@@ -43,33 +44,33 @@ export default function Product(){
 
 
     return (
-        <>
-            <Button className="absolute top-4 left-4" variant="ghost"
-                    onClick={() => router.back()}>
+        <div>
+            <Button className={`m-4 p-4`}
+            onClick={() => router.back()}>
+                <IoIosArrowRoundBack />
+
                 Назад
             </Button>
-            <div className="mx-auto py-10  md:flex-row lg:gap-6 flex flex-col items-center md:items-start justify-between">
+            <div className="md:flex-row lg:gap-6 flex flex-col items-center md:items-start justify-between ">
                 {/* Левая сторона — фото */}
-                <div className="relative md:w-1/2 w-3/4 h-[400px] md:h-[500px] p-2 ">
-                    {loading ? <Skeleton className="w-full h-full"/> : (
+                <div className="relative md:w-1/2 w-3/4 h-[400px] md:h-[500px] p-2">
+                    {loading ? <Skeleton className="relative md:w-1/2 w-3/4 h-[400px] md:h-[500px] p-2"/> : (
                         <Image
                             src={productItem?.image || '/noPoster.jpg'}
                             alt={productItem?.title || 'Постера нет'}
                             fill
-                            style={{objectFit: "contain"}}
-                            className="rounded-md"
+                            className="rounded-md object-contain "
                             loading={"lazy"}
-                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"
                         />
                     )}
                 </div>
 
                 {/* Правая сторона — название и характеристики */}
-                <div className="md:w-1/2 space-y-4 p-2">
+                <div className="md:w-1/2 space-y-4 p-2 w-full">
                     {loading ? (
                         <>
-                            <Skeleton className="w-full h-8"/>
-                            <Skeleton className="w-full h-8"/>
+                            <Skeleton className="h-8"/>
+                            <Skeleton className="h-8"/>
                         </>
                     ) : (
                         <>
@@ -87,8 +88,8 @@ export default function Product(){
                         ) : (
                             productItem?.attributes && productItem?.attributes.map((attr) => (
                                 <li key={attr.id} className="flex justify-between border-b py-1">
-                                    <span className="font-medium md:text-sm text-[10px]">{attr.attribute.name}:</span>
-                                    <span className={`font-bold md:text-sm text-[10px]`}>{attr.value}</span>
+                                    <span className="font-medium text-sm ">{attr.attribute.name}:</span>
+                                    <span className={`font-bold text-sm `}>{attr.value}</span>
                                 </li>
                             ))
                         )}
@@ -98,9 +99,9 @@ export default function Product(){
                 {/* Снизу — похожие товары */}
 
             </div>
-            <div className="col-span-12 mt-10">
+            <div className="col-span-12 mt-10 p-2">
                 <h2 className="text-2xl font-bold mb-4">Похожие товары</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {loadingRelated ? (
                         Array.from({length: 4}).map((_, i) => (
                             <Skeleton key={i} className="w-full h-40"/>
@@ -126,7 +127,7 @@ export default function Product(){
                     )}
                 </div>
             </div>
-        </>
+        </div>
 
     )
 }

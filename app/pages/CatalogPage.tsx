@@ -79,7 +79,7 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
     };
 
     return (
-        <div className="container mx-auto py-10 grid grid-cols-12 gap-6">
+        <div className="container mx-auto lg:py-10 grid grid-cols-12 gap-6 py-2 px-2">
             {/* Левый блок — фильтры */}
             <aside className="col-span-12 md:col-span-3 border-r pr-4 space-y-6">
                 <h2 className="font-semibold text-lg mb-2">Категории</h2>
@@ -117,7 +117,7 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
                         : "Все товары"}
                 </h1>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 md:gap-6 gap-2">
                     {products.length === 0 && data === undefined
                         ? Array.from({ length: 6 }).map((_, i) => (
                             <div key={i}>
@@ -126,7 +126,7 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
                             </div>
                         ))
                         : products.map((p) => (
-                            <Link href={`${selectedSlug}/${p.id}`} key={p.id} className={`p-2`}>
+                            <Link href={`${selectedSlug}/${p.id}`} key={p.id}>
                                 <div key={p.id} className="border rounded-lg p-2 flex flex-col">
                                     <img
                                         src={p.image || ""}

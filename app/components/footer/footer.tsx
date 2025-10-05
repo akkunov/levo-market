@@ -3,7 +3,6 @@ import Container from "@/app/components/container/Container";
 import Link from "next/link";
 import {mockCategories} from "@/app/components/catalog/Catalog";
 import {BsInstagram} from "react-icons/bs";
-import {SiTelegram} from "react-icons/si";
 
 export const Footer: FC = () => {
     return (
@@ -17,16 +16,7 @@ export const Footer: FC = () => {
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
                                 target={'_blank'}
                             >
-                                Instagram <BsInstagram />
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="#"
-                                className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
-                                target={'_blank'}
-                            >
-                                Telegram <SiTelegram />
+                                Instagram <BsInstagram/>
                             </Link>
                         </li>
                         <li>
@@ -38,12 +28,21 @@ export const Footer: FC = () => {
                                 Levo@meraket.com
                             </Link>
                         </li>
+                        <li>
+                            <Link
+                                href="/contacts"
+                                className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                            >
+                                Наши сервисные центры
+                            </Link>
+                        </li>
                     </ul>
                     <ul className={`text-sm text-white grid grid-cols-auto max-w-1/2 p-2 gap-2 pb-8`}>
                         {mockCategories.map((items) => {
                             return (
                                 <li key={items.id}>
-                                    <Link href="#" className={`hover:underline hover:text-gray-300`}>{items.name}</Link>
+                                    <Link href={`/catalogs/${items.slug}`}
+                                          className={`hover:underline hover:text-gray-300`}>{items.name}</Link>
                                 </li>
                             )
                         })}
