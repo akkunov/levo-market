@@ -135,7 +135,7 @@ export default function ExploreGrid() {
                     <div
                         className="col-span-2 row-span-2  aspect-square flex relative items-center bg-gray-800/70 p-2 box-border">
 
-                        <Link href="/catalogs/stiralnay-mashina" className={`flex z-20`}>
+                        <Link href="/catalogs?slug=stiralnay-mashina" className={`flex z-20`}>
                             <span className={`text-white flex z-30 absolute bottom-6 text-base md:text-2xl `}>Стиральные машины LEVO</span>
                             <Image
                                 src="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/WhatsApp%20Image%202025-10-01%20at%2008.09.00.jpeg"
@@ -148,7 +148,7 @@ export default function ExploreGrid() {
                     </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Link href={'/catalogs/Xolodilniki'} className={`flex z-20`}>
+                    <Link href={'/catalogs?slug=Xolodilniki'} className={`flex z-20`}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}> Холодильники
                             Levo</span>
                         <Image
@@ -160,7 +160,7 @@ export default function ExploreGrid() {
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48  md:h-auto">
-                    <Link className={`flex z-20`} href={'/catalogs'}>
+                    <Link className={`flex z-20`} href={'/catalogs?slug=morozilnye-lari'}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Морозильные лари LEVO</span>
                         <Image
                             src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/0b1280a7-115f-4199-8045-0f2b21753e20.jpg'}
@@ -171,7 +171,7 @@ export default function ExploreGrid() {
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Link  className={`flex z-20`} href={'/catalogs/kondicionery'}>
+                    <Link  className={`flex z-20`} href={'/catalogs?slug=kondicionery'}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Кондиционеры LEVO</span>
                         <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/4a2d52f2-83c1-4de7-b793-89eb5e87c5f8.png'} alt={'Кондиционеры LEVO'} className="object-cover" fill
                                sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
