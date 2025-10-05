@@ -10,6 +10,7 @@ import { X } from "lucide-react";
 import { AttributeList } from "@/app/components/cards/attributeList/AttributeList";
 
 export type Items = {
+    catalogAttributeId?: number;
     id: number;
     name: string;
     type: string;
@@ -34,6 +35,8 @@ type CatalogFormProps = {
 type FormValues = {
     name: string;
     slug: string;
+    options: string[];
+    type:"TEXT" | "NUMBER" | "DROPDOWN";
 };
 
 export const CatalogForm = ({
@@ -84,10 +87,12 @@ export const CatalogForm = ({
         }
     };
 
-    const handleRemoveAttribute = (attrId: number) => {
+    const handleRemoveAttribute = (attrId: number ,
+                                   catalogAttributeId?: number|undefined) => {
         const attr = selectedAttributes.find((a) => a.id === attrId);
         if (!attr) return;
         setSelectedAttributes((prev) => prev.filter((a) => a.id !== attrId));
+
         setAttributes((prev) => {
             // Добавляем обратно только если его там нет
             if (!prev.find((a) => a.id === attr.id)) {
@@ -95,6 +100,8 @@ export const CatalogForm = ({
             }
             return prev;
         });
+        if(!catalogAttributeId) return;
+        fetch(`/api/catalogAttributes/${catalogAttributeId}`, { method: 'DELETE'});
     };
 
     const submitHandler: SubmitHandler<FormValues> = async (data) => {
@@ -125,7 +132,7 @@ export const CatalogForm = ({
                                     size="icon"
                                     variant="ghost"
                                     className="h-4 w-4 p-0"
-                                    onClick={() => handleRemoveAttribute(attr.id)}
+                                    onClick={() => handleRemoveAttribute(attr.id, attr.catalogAttributeId)}
                                 >
                                     <X className="h-3 w-3" />
                                 </Button>

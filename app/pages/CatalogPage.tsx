@@ -13,15 +13,15 @@ const fetchCategories = async (): Promise<Catalog[]> => {
 
 const fetchProducts = async ({
                                  pageParam = 1,
-                                 slug,
+                               catalogId
                              }: {
     pageParam?: number;
-    slug?: string | null;
+    catalogId:number | null;
 }): Promise<{ items: ProductItems[]; totalPages: number }> => {
     const params = new URLSearchParams();
     params.set("page", pageParam.toString());
     params.set("limit", "9");
-    if (slug) params.set("slug", slug);
+    if (catalogId) params.set("catalogId", catalogId.toString());
 
     const res = await fetch(`/api/products?${params.toString()}`);
     return res.json();
@@ -38,6 +38,9 @@ export default function CatalogPage() {
         queryFn: fetchCategories,
     });
 
+    const selectedCategory = categories.find((c) => c.slug === selectedSlug);
+    const selectedCategoryId = selectedCategory?.id ?? null;
+
     const {
         data,
         fetchNextPage,
@@ -47,7 +50,7 @@ export default function CatalogPage() {
     } = useInfiniteQuery({
         queryKey: ["products", selectedSlug],
         queryFn: ({ pageParam = 1 }) =>
-            fetchProducts({ pageParam, slug: selectedSlug }),
+            fetchProducts({ pageParam, catalogId: selectedCategoryId}),
         getNextPageParam: (lastPage, allPages) =>
             allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
         initialPageParam: 1,
@@ -72,7 +75,8 @@ export default function CatalogPage() {
 
     const handleSelectCategory = (slug: string | null) => {
         router.push(`/catalogs${slug ? `?slug=${slug}` : ""}`);
-        refetch(); // Подгрузить новые товары для выбранного каталога
+        refetch(); // Подгрузить новые товары для выбранного каталог// а
+        console.log(products)
     };
 
     return (

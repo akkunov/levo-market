@@ -4,13 +4,13 @@ import { prisma } from "@/lib/prisma";
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
-    const categoryId = searchParams.get("categoryId");
+    const catalogId = searchParams.get("catalogId");
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "12", 10);
 
     const skip = (page - 1) * limit;
 
-    const where = categoryId ? { catalogId: Number(categoryId) } : {};
+    const where = catalogId ? { catalogId: Number(catalogId) } : {};
 
     const [products, total] = await Promise.all([
         prisma.product.findMany({

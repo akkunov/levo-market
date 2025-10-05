@@ -5,7 +5,7 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id } = await params;
-    console.log(id)// id записи в CatalogAttribute (связи)
+    console.log(id)
 
     // Удаляем только связь
     const deletedLink = await prisma.catalogAttribute.delete({
