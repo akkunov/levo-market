@@ -126,7 +126,7 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
                             </div>
                         ))
                         : products.map((p) => (
-                            <Link href={`${selectedSlug}/${p.id}`} key={p.id}>
+                            <Link href={`${selectedSlug}/${p.id}`} key={p.id} className={`p-2`}>
                                 <div key={p.id} className="border rounded-lg p-2 flex flex-col">
                                     <img
                                         src={p.image || ""}
