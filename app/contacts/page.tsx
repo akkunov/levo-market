@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Building2 } from "lucide-react";
 import {YMAP_MAP_KEY} from "@/lib/config";
+import {Header} from "@/app/components/header/Header";
 
 interface Contact {
     city: string;
@@ -105,11 +106,9 @@ export default function ContactsPage() {
         };
 
         const initMap = () => {
-            // @ts-ignore
             window.ymaps.ready(() => {
                 if (!mapRef.current) return;
 
-                // @ts-ignore
                 const ymaps = window.ymaps;
                 mapInstance.current = new ymaps.Map(mapRef.current, {
                     center: [40.7, 72.8],
@@ -122,7 +121,7 @@ export default function ContactsPage() {
         };
 
         loadMap();
-    }, []);
+    }, [filteredContacts]);
 
     // Перерисовка точек при смене фильтра
     useEffect(() => {
@@ -153,85 +152,89 @@ export default function ContactsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-6">
-            <div className="max-w-6xl mx-auto space-y-8">
-                {/* Заголовок */}
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                        Контакты сервисных центров
-                    </h1>
-                    <p className="text-gray-500">
-                        Найдите ближайший сервисный центр и свяжитесь напрямую
-                    </p>
-                </div>
+        <>
+            <Header />
+            <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-6 mt-6">
+                <div className="max-w-6xl mx-auto space-y-8">
+                    {/* Заголовок */}
+                    <div className="text-center">
+                        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                            Контакты сервисных центров
+                        </h1>
+                        <p className="text-gray-500">
+                            Найдите ближайший сервисный центр и свяжитесь напрямую
+                        </p>
+                    </div>
 
-                {/* Фильтр */}
-                <div className="flex justify-center">
-                    <Select
-                        value={selectedCity}
-                        onValueChange={(val) => setSelectedCity(val)}
-                    >
-                        <SelectTrigger className="w-60">
-                            <SelectValue placeholder="Выберите город" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Все">Все города</SelectItem>
-                            {contacts.map((c, i) => (
-                                <SelectItem key={i} value={c.city}>
-                                    {c.city}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                {/* Карта */}
-                <div
-                    ref={mapRef}
-                    className="w-full h-[400px] rounded-2xl overflow-hidden shadow"
-                />
-
-                {/* Карточки */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredContacts.map((contact, index) => (
-                        <Card
-                            key={index}
-                            className="shadow-sm hover:shadow-lg transition border border-gray-200 rounded-2xl cursor-pointer"
-                            onClick={() => {
-                                setSelectedCity(contact.city);
-                                if (mapInstance.current) {
-                                    mapInstance.current.setCenter(contact.coords, 12);
-                                }
-                            }}
+                    {/* Фильтр */}
+                    <div className="flex justify-center">
+                        <Select
+                            value={selectedCity}
+                            onValueChange={(val) => setSelectedCity(val)}
                         >
-                            <CardHeader>
-                                <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
-                                    <Building2 className="text-blue-600" size={20} />
-                                    {contact.city}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="text-gray-600 space-y-3">
-                                <div className="flex items-start gap-2">
-                                    <MapPin size={18} className="mt-0.5 text-gray-400" />
-                                    <p>{contact.address}</p>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                    {contact.phones.map((phone, i) => (
-                                        <a
-                                            key={i}
-                                            href={`tel:${phone}`}
-                                            className="flex items-center gap-2 text-blue-600 hover:underline"
-                                        >
-                                            <Phone size={16} />
-                                            {phone}
-                                        </a>
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+                            <SelectTrigger className="w-60">
+                                <SelectValue placeholder="Выберите город"/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="Все">Все города</SelectItem>
+                                {contacts.map((c, i) => (
+                                    <SelectItem key={i} value={c.city}>
+                                        {c.city}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    {/* Карта */}
+                    <div
+                        ref={mapRef}
+                        className="w-full h-[400px] rounded-2xl overflow-hidden shadow"
+                    />
+
+                    {/* Карточки */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredContacts.map((contact, index) => (
+                            <Card
+                                key={index}
+                                className="shadow-sm hover:shadow-lg transition border border-gray-200 rounded-2xl cursor-pointer"
+                                onClick={() => {
+                                    setSelectedCity(contact.city);
+                                    if (mapInstance.current) {
+                                        mapInstance.current.setCenter(contact.coords, 12);
+                                    }
+                                }}
+                            >
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2 text-lg text-gray-800">
+                                        <Building2 className="text-blue-600" size={20}/>
+                                        {contact.city}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="text-gray-600 space-y-3">
+                                    <div className="flex items-start gap-2">
+                                        <MapPin size={18} className="mt-0.5 text-gray-400"/>
+                                        <p>{contact.address}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        {contact.phones.map((phone, i) => (
+                                            <a
+                                                key={i}
+                                                href={`tel:${phone}`}
+                                                className="flex items-center gap-2 text-blue-600 hover:underline"
+                                            >
+                                                <Phone size={16}/>
+                                                {phone}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
+
     );
 }
