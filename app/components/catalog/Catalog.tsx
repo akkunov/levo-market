@@ -99,7 +99,7 @@ export default function ExploreGrid() {
                 </div>
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
-                    <Link  className={`flex z-20`} href={'/catalogs/'}>
+                    <Link  className={`flex z-20`} href={'/catalogs/kondicionery'}>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>Кондиционеры LEVO</span>
                         <Image src={'https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/4a2d52f2-83c1-4de7-b793-89eb5e87c5f8.png'} alt={'Кондиционеры LEVO'} className="object-cover" fill
                                sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"/>
