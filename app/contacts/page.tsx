@@ -138,12 +138,10 @@ export default function ContactsPage() {
 
     // Функция добавления меток
     const renderMarkers = (list: Contact[]) => {
-        // @ts-ignore
         const ymaps = window.ymaps;
         mapInstance.current.geoObjects.removeAll();
 
         list.forEach((c) => {
-            // @ts-ignore
             const placemark = new ymaps.Placemark(c.coords, {
                 balloonContent: `<b>${c.city}</b><br/>${c.address}`,
             });
