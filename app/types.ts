@@ -25,5 +25,6 @@ declare global {
         };
     }
 
-    interface YPlacemark {}
+    // вместо пустого interface
+    type YPlacemark = Record<string, unknown>;
 }
