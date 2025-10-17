@@ -183,12 +183,6 @@ export default function ContactsPage() {
                         </Select>
                     </div>
 
-                    {/* Карта */}
-                    <div
-                        ref={mapRef}
-                        className="w-full h-[400px] rounded-2xl overflow-hidden shadow"
-                    />
-
                     {/* Карточки */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredContacts.map((contact, index) => (
@@ -229,6 +223,11 @@ export default function ContactsPage() {
                             </Card>
                         ))}
                     </div>
+                    {/* Карта */}
+                    <div
+                        ref={mapRef}
+                        className="w-full h-[400px] rounded-2xl overflow-hidden shadow"
+                    />
                 </div>
             </div>
         </>
