@@ -41,6 +41,7 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
 
     const selectedCategory = categories.find((c) => c.slug === selectedSlug);
     const selectedCategoryId = selectedCategory?.id ?? null;
+    console.log(selectedSlug, selectedCategoryId)
 
     const {
         data,
@@ -50,10 +51,11 @@ export default function CatalogPage({slug}: {slug?:ParamValue}) {
     } = useInfiniteQuery({
         queryKey: ["products", selectedSlug],
         queryFn: ({ pageParam = 1 }) =>
-            fetchProducts({ pageParam, catalogId: selectedCategoryId}),
+            fetchProducts({ pageParam, catalogId: selectedCategoryId }),
         getNextPageParam: (lastPage, allPages) =>
             allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
         initialPageParam: 1,
+        enabled: !!selectedCategoryId || selectedSlug === undefined, // запускать только если категория известна
     });
 
     const products = data?.pages.flatMap((p) => p.items) || [];
