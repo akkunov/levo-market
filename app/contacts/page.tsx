@@ -84,7 +84,7 @@ const contacts: Contact[] = [
 
 export default function ContactsPage() {
     const mapRef = useRef<HTMLDivElement>(null);
-    const mapInstance = useRef<ymaps.Map | null>(null);
+    const mapInstance = useRef<YMap | null>(null);
     const [selectedCity, setSelectedCity] = useState<string>("Все");
 
     const filteredContacts =
