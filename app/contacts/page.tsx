@@ -84,7 +84,7 @@ const contacts: Contact[] = [
 
 export default function ContactsPage() {
     const mapRef = useRef<HTMLDivElement>(null);
-    const mapInstance = useRef<any>(null);
+    const mapInstance = useRef<ymaps.Map | null>(null);
     const [selectedCity, setSelectedCity] = useState<string>("Все");
 
     const filteredContacts =
@@ -98,8 +98,7 @@ export default function ContactsPage() {
             if (window?.ymaps) return initMap();
 
             const script = document.createElement("script");
-            script.src =
-                `https://api-maps.yandex.ru/2.1/?apikey=${YMAP_MAP_KEY}&lang=ru_RU`;
+            script.src = `https://api-maps.yandex.ru/2.1/?apikey=${YMAP_MAP_KEY}&lang=ru_RU`;
             script.async = true;
             script.onload = initMap;
             document.body.appendChild(script);
@@ -115,17 +114,17 @@ export default function ContactsPage() {
                     zoom: 8,
                     controls: ["zoomControl"],
                 });
-
-                renderMarkers(filteredContacts);
+                renderMarkers(contacts); // при инициализации показываем все
             });
         };
 
         loadMap();
-    }, [filteredContacts]);
+    }, []);
 
     // Перерисовка точек при смене фильтра
     useEffect(() => {
         if (!window?.ymaps || !mapInstance.current) return;
+
         renderMarkers(filteredContacts);
 
         if (selectedCity !== "Все") {
@@ -134,18 +133,18 @@ export default function ContactsPage() {
         } else {
             mapInstance.current.setCenter([40.7, 72.8], 8);
         }
-    }, [selectedCity]);
+    }, [filteredContacts, selectedCity]);
 
     // Функция добавления меток
     const renderMarkers = (list: Contact[]) => {
         const ymaps = window.ymaps;
-        mapInstance.current.geoObjects.removeAll();
+        mapInstance?.current?.geoObjects.removeAll();
 
         list.forEach((c) => {
             const placemark = new ymaps.Placemark(c.coords, {
                 balloonContent: `<b>${c.city}</b><br/>${c.address}`,
             });
-            mapInstance.current.geoObjects.add(placemark);
+            mapInstance?.current?.geoObjects.add(placemark);
         });
     };
 
