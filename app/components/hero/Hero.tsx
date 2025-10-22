@@ -94,8 +94,15 @@ export default function Hero() {
                 <div
                     className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
                     <div>
-                        <h1 className="text-2xl md:text-6xl font-bold text-start">Добро пожаловать в LEVO</h1>
-                        <p className="mt-4 text-md md:text-xl text-start">Умная техника для вашего дома</p>
+                        <h1 className="text-3xl md:text-6xl font-bold text-start leading-tight">
+                            Бытовая техника LEVO — умные решения для вашего дома
+                        </h1>
+                        <p className="mt-4 text-lg md:text-xl text-start max-w-2xl">
+                            <strong>Levo KG</strong> предлагает широкий выбор бытовой техники:
+                            <strong>стиральные машины, холодильники, кондиционеры, морозильники</strong> и встраиваемые
+                            решения.
+                            Быстрая доставка по всему Кыргызстану и гарантия качества.
+                        </p>
                         <Link
                             href="/#hero-catalog"
                             scroll={true}

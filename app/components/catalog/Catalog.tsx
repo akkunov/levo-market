@@ -3,6 +3,7 @@ import {FC} from "react";
 import Container from "../container/Container";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 
 
 
@@ -44,12 +45,44 @@ export const mockCategories: Category[] = [
 
 
 export const Catalog: FC = () => {
-    // Генерация JSON-LD для всех товаро
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: [
+            {
+                "@type": "Product",
+                name: "Стиральные машины Levo",
+                url: "https://levo.kg/catalogs/stiralnay-mashina",
+            },
+            {
+                "@type": "Product",
+                name: "Холодильники Levo",
+                url: "https://levo.kg/catalogs/Xolodilniki",
+            },
+            {
+                "@type": "Product",
+                name: "Морозильные лари Levo",
+                url: "https://levo.kg/catalogs/Morozilnik",
+            },
+            {
+                "@type": "Product",
+                name: "Кондиционеры Levo",
+                url: "https://levo.kg/catalogs/kondicionery",
+            },
+        ],
+    };
+
 
     return (
-        <section id="hero-catalog" className="flex flex-row columns-3 gap-x-4">
-            <Container className="flex flex-col text-start w-full mt-10 mx-auto">
-                <ExploreGrid/>
+        <section id="hero-catalog" className="bg-[#EEEFF2] pb-8 pt-8">
+            <Container className="mt-0 mx-auto">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                    Каталог бытовой техники Levo
+                </h2>
+                <ExploreGrid />
+                <Script id="catalog-schema" type="application/ld+json">
+                    {JSON.stringify(jsonLd)}
+                </Script>
             </Container>
         </section>
     );

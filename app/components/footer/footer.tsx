@@ -54,6 +54,16 @@ export const Footer: FC = () => {
             <Container>
                 <a className={`text-sm text-[#99a1af] items-start px-4 md:px4-4 box-border`}>© 2025 LEVO — официальный
                     сайт бытовой техники. Все права защищены.</a>
+
+                <div className="text-gray-400 text-sm mt-6 px-4 max-w-3xl leading-relaxed">
+                    <p>
+                        <strong>LEVO KG</strong> — официальный магазин бытовой техники в Кыргызстане.
+                        У нас вы можете <Link href="/catalogs/stiralnay-mashina">купить стиральные машины</Link>,{" "}
+                        <Link href="/catalogs/Xolodilniki">холодильники</Link>,{" "}
+                        <Link href="/catalogs/Morozilnik">морозильники</Link> и{" "}
+                        <Link href="/catalogs/kondicionery">кондиционеры</Link> Levo с доставкой по Бишкеку и регионам.
+                    </p>
+                </div>
             </Container>
 
         </footer>
