@@ -78,7 +78,7 @@ export default function Product() {
                 <IoIosArrowRoundBack /> Назад
             </Button>
 
-            <div className="md:flex-row lg:gap-6 flex flex-col items-center md:items-start justify-between">
+            <div className="md:flex-row lg:gap-6 flex flex-col items-center md:items-start justify-between p-2">
                 {/* Фото товара */}
                 <div className="relative md:w-1/2 w-3/4 h-[400px] md:h-[500px] p-2">
                     {loading ? (

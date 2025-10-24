@@ -12,7 +12,7 @@ export default function Home() {
           </main>
 
           {/*//секция каталогов*/}
-          <section className="bg-[#EEEFF2] pb-8" id={'hero-catalog'}>
+          <section className="bg-[#EEEFF2] pb-8 p-2" id={'hero-catalog'}>
               <Catalog />
           </section>
           {/*<UploadImage />*/}

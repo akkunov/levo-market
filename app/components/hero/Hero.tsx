@@ -61,7 +61,7 @@ export default function Hero() {
                 <meta property="og:image" content="https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/herosdgs.png" />
             </Head>
 
-            <div className="relative w-full h-screen overflow-hidden">
+            <div className="relative w-full h-screen overflow-hidden p-2">
                 {/* Пока видео не готово — показываем картинку */}
 
                 <Image
@@ -92,7 +92,7 @@ export default function Hero() {
                     {isVideoPlaying ? <BsPauseFill/> : <BsPlayFill/>}
                 </button>
                 <div
-                    className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30">
+                    className="absolute inset-0 z-10 flex items-center justify-center text-white text-center bg-black/30 p-2" >
                     <div>
                         <h1 className="text-3xl md:text-6xl font-bold text-start leading-tight">
                             Бытовая техника LEVO — умные решения для вашего дома

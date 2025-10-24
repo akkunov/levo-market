@@ -6,7 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Catalog, ProductItems } from "@/app/admin/types";
 import Link from "next/link";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
 
 const fetchCategories = async (): Promise<Catalog[]> => {
     const res = await fetch("/api/catalogs");
@@ -29,7 +28,6 @@ const fetchProducts = async ({
 };
 
 export default function CatalogPage({ slug }: { slug?: string }) {
-    const router = useRouter();
     const selectedSlug = slug;
 
     const { data: categories = [] } = useQuery<Catalog[]>({
@@ -71,9 +69,6 @@ export default function CatalogPage({ slug }: { slug?: string }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    const handleSelectCategory = (slug: string | null) => {
-        router.push(`/catalogs/${slug ? slug : ""}`);
-    };
 
     return (
         <>
@@ -91,14 +86,14 @@ export default function CatalogPage({ slug }: { slug?: string }) {
             </Head>
 
             {/* Breadcrumbs */}
-            <nav aria-label="breadcrumb" className="my-4 text-sm text-gray-500">
+            <nav aria-label="breadcrumb" className="my-4 text-sm text-gray-500 p-2">
                 <ol className="flex space-x-2">
                     <li><Link href="/">Главная</Link> / </li>
                     {selectedCategory && <li>{selectedCategory.name}</li>}
                 </ol>
             </nav>
 
-            <div className="grid grid-cols-12 gap-6">
+            <div className="grid grid-cols-12 gap-6 p-2">
                 {/* Фильтры */}
                 <aside className="col-span-12 md:col-span-3 border-r pr-4 space-y-4">
                     <h2 className="font-semibold text-lg mb-2">Категории</h2>
