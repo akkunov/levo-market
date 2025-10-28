@@ -21,11 +21,11 @@ export const Footer: FC = () => {
                         </li>
                         <li>
                             <Link
-                                href="mailto:akunov313131@gmail.com"
+                                href="mailto:levo.market.help@gmail.com"
                                 className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
                                 target={'_blank'}
                             >
-                                Levo@meraket.com
+                                levo.market.help@gmail.com
                             </Link>
                         </li>
                         <li>
