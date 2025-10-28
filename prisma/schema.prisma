@@ -21,6 +21,9 @@ model Catalog {
   slug       String     @unique
   products   Product[]
   attributes CatalogAttribute[] // связь с атрибутами через промежуточную таблицу
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now()) // <- добавили дефолт
 }
 
 model Attribute {
@@ -62,6 +65,8 @@ model Product {
   catalog   Catalog  @relation(fields: [catalogId], references: [id])
 
   attributes ProductAttributeValue[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt @default(now()) // <- добавили дефолт
 }
 
 enum AttributeType {
