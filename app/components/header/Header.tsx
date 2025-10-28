@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Container from "@/app/components/container/Container";
+import {BsInstagram} from "react-icons/bs";
 
 const Burger: FC<{ onClick: () => void }> = ({ onClick }) => (
     <Button variant="ghost" onClick={onClick} className="p-2">
@@ -32,7 +33,6 @@ export const Header: FC = () => {
         { href: "/", label: "Главная" },
         { href: "/catalogs", label: "Продукты" },
         { href: "/contacts", label: "Контакты" },
-        { href: "/login", label: "Войти" },
     ];
 
     // Отслеживаем прокрутку
@@ -102,22 +102,45 @@ export const Header: FC = () => {
                         ✕
                     </Button>
 
-                    <nav className="mt-10 flex flex-col gap-4">
-                        {links.map((link) => {
-                            const isActive = pathname === link.href;
-                            return (
+                    <nav className="pt-10 flex flex-col gap-4 justify-between h-full">
+                        <div className={"flex flex-col gap-4"}>
+                            {links.map((link) => {
+                                const isActive = pathname === link.href;
+                                return (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        onClick={() => setOpen(false)}
+                                        className={`text-white hover:text-blue-500 transition-colors ${
+                                            isActive ? "font-bold text-blue-400" : ""
+                                        }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                        <ul className="text-md text-white grid grid-cols-1 max-w-1/2 p-2 gap-2 pb-8">
+                            <li>
                                 <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    onClick={() => setOpen(false)}
-                                    className={`text-white hover:text-blue-500 transition-colors ${
-                                        isActive ? "font-bold text-blue-400" : ""
-                                    }`}
+                                    href="https://www.instagram.com/levo_kg/"
+                                    className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                    target={'_blank'}
                                 >
-                                    {link.label}
+                                    Instagram <BsInstagram/>
                                 </Link>
-                            );
-                        })}
+                            </li>
+                            <li>
+                                <Link
+                                    href="mailto:levo.market.help@gmail.com"
+                                    className="inline-flex items-center gap-2 hover:underline hover:text-gray-300"
+                                    target={'_blank'}
+                                >
+                                    levo.market.help@gmail.com
+                                </Link>
+                            </li>
+                        </ul>
+
                     </nav>
                 </aside>
             </div>
