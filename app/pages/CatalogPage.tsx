@@ -120,7 +120,7 @@ export default function CatalogPage({ slug }: { slug?: string }) {
                 </aside>
 
                 {/* Товары */}
-                <main className="col-span-12 md:col-span-9 overflow-y-scroll">
+                <main className="col-span-12 md:col-span-9">
                     <h1 className="text-2xl font-bold mb-4">
                         {selectedCategory ? selectedCategory.name : "Все товары"}
                     </h1>
