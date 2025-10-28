@@ -7,4 +7,5 @@ Host: https://levo.kg
 
 # Sitemaps
 Sitemap: https://levo.kg/sitemap.xml
+Sitemap: https://levo.kg/api/sitemap
 Sitemap: https://levo.kg/sitemap-0.xml
