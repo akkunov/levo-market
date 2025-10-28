@@ -56,23 +56,37 @@ export default function Product() {
             </Head>
 
             {/* JSON-LD для Google */}
-            <Script id="product-jsonld" type="application/ld+json" strategy="afterInteractive">
-                {JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "Product",
-                    "name": productItem.title,
-                    "image": productItem.image,
-                    "description": productItem.catalog?.name,
-                    "brand": "LEVO",
-                    "offers": {
-                        "@type": "Offer",
-                        "url": `https://levo.kg/catalogs/${productItem.catalog?.slug}/${productId}`,
-                        "priceCurrency": "KGS",
-                        "price": productItem.price || "0",
-                        "availability": "https://schema.org/InStock",
-                    },
-                })}
-            </Script>
+            <Script
+                id="product-jsonld"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Product",
+                        "name": productItem.title,
+                        "image": [productItem.image || "https://levo.kg/blackLogo.svg"],
+                        "description": productItem.catalog?.name || "Товар LEVO",
+                        "sku": productItem.id,
+                        "brand": {
+                            "@type": "Brand",
+                            "name": "LEVO"
+                        },
+                        "offers": {
+                            "@type": "Offer",
+                            "url": `https://levo.kg/catalogs/${productItem.catalog?.slug}/${productItem.id}`,
+                            "priceCurrency": "KGS",
+                            "price": productItem.price || "0",
+                            "availability": "https://schema.org/InStock",
+                            "itemCondition": "https://schema.org/NewCondition",
+                            "seller": {
+                                "@type": "Organization",
+                                "name": "LEVO.KG"
+                            }
+                        }
+                    })
+                }}
+            />
 
             <Button className="m-4 p-4" onClick={() => router.back()}>
                 <IoIosArrowRoundBack /> Назад
