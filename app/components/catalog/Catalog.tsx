@@ -38,7 +38,7 @@ export const mockCategories: Category[] = [
     },
     {
         id: "ovens",
-        name: "Встраевамая техника",
+        name: " Встраиваемые техники LEVO",
         slug:""
     },
 ];
@@ -142,6 +142,15 @@ export default function ExploreGrid() {
                 <div
                     className="spect-square flex relative items-center bg-gray-800/70 p-4 box-border min-h-48 md:h-auto">
                     <Link className={`flex z-20`}  href={'/catalogs/'}>
+                        <div
+                            className="absolute top-8
+                            left-[-35px] w-40 text-center
+                            bg-yellow-400 text-black text-sm font-bold py-1
+                            font-sans
+                            z-30
+                            rotate-[-45deg] shadow-md">
+                            Скоро
+                        </div>
                         <span className={`text-white flex z-30 absolute bottom-6 text-base`}>
                             Встраиваемые техники LEVO
                         </span>
