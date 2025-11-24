@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Catalog, ProductItems } from "@/app/admin/types";
+import {Catalog, ProductOCatalog} from "@/app/admin/types";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -18,10 +18,10 @@ const fetchProducts = async ({
                              }: {
     pageParam?: number;
     catalogId: number | null;
-}): Promise<{ items: ProductItems[]; totalPages: number }> => {
+}): Promise<{ items: ProductOCatalog[]; totalPages: number }> => {
     const params = new URLSearchParams();
     params.set("page", pageParam.toString());
-    params.set("limit", "11");
+    params.set("limit", "2");
     if (catalogId) params.set("catalogId", catalogId.toString());
     const res = await fetch(`/api/products?${params.toString()}`);
     return res.json();
@@ -125,24 +125,35 @@ export default function CatalogPage({ slug }: { slug?: string }) {
                         {selectedCategory ? selectedCategory.name : "Все товары"}
                     </h1>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col gap-4">
                         {products.length === 0 && data === undefined
                             ? Array.from({ length: 6 }).map((_, i) => (
                                 <Skeleton key={i} className="h-40 w-full rounded-md" />
                             ))
-                            : products.map((p) => (
-                                <Link href={`/catalogs/${selectedSlug ? `${selectedSlug}/${p.id}` : `all/${p.id}`}`} key={p.id}>
-                                    <div className="border rounded-lg p-2 flex flex-col">
-                                        <img
-                                            src={p.image || "/noPoster.jpg"}
-                                            alt={p.title}
-                                            className="w-full h-40 object-contain rounded-md"
-                                        />
-                                        <span className="mt-2 text-[12px] text-black">{p.catalog.name}</span>
-                                        <h2 className="font-semibold">{p.title}</h2>
+                            : products.map((item) => (
+                                <div className={`flex flex-col w-full`} key={item.id}>
+                                    <h2 className={`text-2xl m-2 font-medium`}>{item.name}</h2>
+                                    <div className={`grid grid-cols-2 gap-4 md:grid-cols-3 pl-4`}>
+                                        {
+                                            item.products?.map((p) => (
+                                                <Link href={`/catalogs/${selectedSlug ? `${selectedSlug}/${p.id}` : `all/${p.id}`}`} key={p.id}>
+                                                    <div className="border rounded-lg p-2 flex flex-col">
+                                                        <img
+                                                            src={p.image || "/noPoster.jpg"}
+                                                            alt={p.title}
+                                                            className="w-full h-40 object-contain rounded-md"
+                                                        />
+                                                        <h2 className="font-semibold">{p.title}</h2>
+                                                    </div>
+                                                </Link>
+                                            ))
+                                        }
                                     </div>
-                                </Link>
-                            ))}
+                                </div>
+
+                            ))
+
+                        }
                     </div>
 
                     {isFetchingNextPage && <p className="mt-4 text-center">Загрузка...</p>}

@@ -4,32 +4,33 @@ import { prisma } from "@/lib/prisma";
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
+    const page = Number(searchParams.get("page") || 1);
+    const limit = Number(searchParams.get("limit") || 10);
     const catalogId = searchParams.get("catalogId");
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "12", 10);
 
-    const skip = (page - 1) * limit;
+    const where: any = {};
+    if (catalogId) where.catalogId = Number(catalogId);
 
-    const where = catalogId ? { catalogId: Number(catalogId) } : {};
-
-    const [products, total] = await Promise.all([
+    const [items, totalCount] = await Promise.all([
         prisma.product.findMany({
             where,
-            include: { catalog: true },
-            skip,
+            skip: (page - 1) * limit,
             take: limit,
-            orderBy: { id: "desc" },
+            select: {
+                id: true,
+                title: true,
+                image: true,
+                price: true,
+            },
+            orderBy: { id: "desc" }
         }),
-        prisma.product.count({ where }),
+
+        prisma.product.count({ where })
     ]);
 
-    return Response.json({
-        items: products,
-        page,
-        total,
-        limit,
-        totalPages: Math.ceil(total / limit),
-    });
+    const totalPages = Math.ceil(totalCount / limit);
+
+    return Response.json({ items, totalPages });
 }
 
 type ProductAttributeInput = {

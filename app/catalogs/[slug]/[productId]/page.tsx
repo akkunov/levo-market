@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Product, ProductItems } from "@/app/admin/types";
+import type { ProductItems,ProductOCatalog } from "@/app/admin/types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import Script from "next/script";
 export default function Product() {
     const [loading, setLoading] = useState(false);
     const [productItem, setProductItem] = useState<ProductItems>();
-    const [related, setRelated] = useState<Product>();
+    const [related, setRelated] = useState<ProductOCatalog>();
     const [loadingRelated, setLoadingRelated] = useState(false);
     const router = useRouter();
     const params = useParams<{ productId: string }>();
@@ -32,9 +32,10 @@ export default function Product() {
                     setLoadingRelated(true);
                     fetch(`/api/products?catalogId=${data.catalogId}`)
                         .then(res => res.json())
-                        .then((rel: Product) => {
-                            setRelated(rel);
+                        .then((rel) => {
+                            setRelated(rel.items[0]);
                             setLoadingRelated(false);
+                            console.log(rel)
                         })
                         .catch(() => setLoadingRelated(false));
                 }
@@ -43,6 +44,7 @@ export default function Product() {
     }, [productId]);
 
     if (!productItem) return <Skeleton className="h-64 w-full" />;
+    console.log(related)
 
     return (
         <>
@@ -134,13 +136,13 @@ export default function Product() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {loadingRelated
                         ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="w-full h-40" />)
-                        : related?.items.map(item => (
+                        : related?.products?.map(item => (
                             <Link key={item.id} href={`/catalogs/${productItem.catalog?.slug}/${item.id}`}>
                                 <div className="border rounded-md p-2 flex flex-col items-center">
                                     <div className="relative w-full h-40">
                                         <Image
                                             src={item.image || "/noPoster.jpg"}
-                                            alt={item.title}
+                                            alt={item.title || 'product photo'}
                                             fill
                                             style={{ objectFit: "contain" }}
                                             className="rounded-md"

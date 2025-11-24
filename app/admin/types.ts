@@ -56,3 +56,12 @@ export type Product = {
     total: number;
     totalPages:number;
 }
+
+export type ProductOCatalog = {
+    id: number;
+    name: string;
+    slug: string;
+    "createdAt": string,
+    "updatedAt":string,
+    products: Omit<ProductItems, "catalog">[]
+}
