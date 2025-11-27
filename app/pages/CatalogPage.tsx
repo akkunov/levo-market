@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
 import {Catalog, ProductOCatalog} from "@/app/admin/types";
 import Link from "next/link";
 import Head from "next/head";
@@ -126,11 +125,7 @@ export default function CatalogPage({ slug }: { slug?: string }) {
                     </h1>
 
                     <div className="flex flex-col gap-4">
-                        {products.length === 0 && data === undefined
-                            ? Array.from({ length: 6 }).map((_, i) => (
-                                <Skeleton key={i} className="h-40 w-full rounded-md" />
-                            ))
-                            : products.map((item) => (
+                        { products.map((item) => (
                                 <div className={`flex flex-col w-full`} key={item.id}>
                                     <h2 className={`text-2xl m-2 font-medium`}>{item.name}</h2>
                                     <div className={`grid grid-cols-2 gap-4 md:grid-cols-3 pl-4`}>

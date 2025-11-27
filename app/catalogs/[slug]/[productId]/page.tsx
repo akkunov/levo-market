@@ -44,7 +44,6 @@ export default function Product() {
     }, [productId]);
 
     if (!productItem) return <Skeleton className="h-64 w-full" />;
-    console.log(related)
 
     return (
         <>
