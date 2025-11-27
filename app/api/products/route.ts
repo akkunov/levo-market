@@ -1,6 +1,12 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+
+// Типизация блока `where`
+type ProductWhereInput = {
+    catalogId?: number;
+};
+
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
@@ -8,7 +14,7 @@ export async function GET(req: NextRequest) {
     const limit = Number(searchParams.get("limit") || 10);
     const catalogId = searchParams.get("catalogId");
 
-    const where: any = {};
+    const where: ProductWhereInput = {};
     if (catalogId) where.catalogId = Number(catalogId);
 
     const [items, totalCount] = await Promise.all([
