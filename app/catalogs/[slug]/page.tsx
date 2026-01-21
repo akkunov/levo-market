@@ -3,10 +3,8 @@ import {Suspense} from "react";
 import Spinner from "@/app/components/ui/Spinner";
 
 
-export default async  function CatalogSlugPage({
-                                                   params,
-                                               }: {
-    params: Promise<{ slug: string }>; // Use the Promise type
+export default async  function CatalogSlugPage({params}: {
+    params: Promise<{ slug: string }>;
 }) {
 
 
