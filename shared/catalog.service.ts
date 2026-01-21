@@ -20,16 +20,16 @@ export const getCatalogs = unstable_cache(
     }
 )
 
-export const getProducts = unstable_cache(
-    async () => {
-        return prisma.product.findMany()
-    },
-    ['catalogs'],
-    {
-        revalidate: 300,
-        tags: ['catalogs'],
-    }
-)
+// export const getProducts = unstable_cache(
+//     async () => {
+//         return prisma.product.findMany()
+//     },
+//     ['products'],
+//     {
+//         revalidate: 300,
+//         tags: ['products'],
+//     }
+// )
 export async function createCatalog(data: { name: string; slug: string }) {
     return prisma.catalog.create({ data })
 }

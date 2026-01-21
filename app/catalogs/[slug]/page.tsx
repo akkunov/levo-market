@@ -1,15 +1,19 @@
-'use client'
-
 import CatalogPage from "@/app/pages/CatalogPage";
 import {Suspense} from "react";
 import Spinner from "@/app/components/ui/Spinner";
-import {useParams} from "next/navigation";
+
+type PageProps = {
+    params: {
+        slug: string
+    }
+}
+export default async  function CatalogSlugPage({params}: PageProps) {
 
 
-export default function CatalogSlugPage() {
-    const params = useParams<{slug: string;}>()
-    const {slug} = params;
+    const {slug} = await params
+    console.log(slug)
+
     return <Suspense fallback={<Spinner />}>
-        <CatalogPage slug={slug}/>
+        <CatalogPage slug={slug} />
     </Suspense>
 }
