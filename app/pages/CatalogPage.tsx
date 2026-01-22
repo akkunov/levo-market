@@ -1,74 +1,15 @@
-import {Catalog, ProductOCatalog} from "@/app/admin/types";
+
 import Link from "next/link";
 import Head from "next/head";
 import {getCatalogs, getProducts} from "@/shared/catalog.service";
-
-// const fetchCategories = async (): Promise<Catalog[]> => {
-//     const res = await fetch("/api/catalogs");
-//     return res.json();
-// };
-//
-// const fetchProducts = async ({
-//                                  pageParam = 1,
-//                                  catalogId
-//                              }: {
-//     pageParam?: number;
-//     catalogId: number | null;
-// }): Promise<{ items: ProductOCatalog[]; totalPages: number }> => {
-//     const params = new URLSearchParams();
-//     params.set("page", pageParam.toString());
-//     params.set("limit", "2");
-//     if (catalogId) params.set("catalogId", catalogId.toString());
-//     const res = await fetch(`/api/products?${params.toString()}`);
-//     return res.json();
-// };
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
     const categories = await getCatalogs()
     const selectedSlug = slug;
 
-
-
-    // const { data: categories = [] } = useQuery<Catalog[]>({
-    //     queryKey: ["categories"],
-    //     queryFn: fetchCategories,
-    // });
-
     const selectedCategory = categories.find((c) => c.slug === selectedSlug);
     const selectedCategoryId = selectedCategory?.id ?? null;
     const products = await getProducts(selectedCategoryId);
-    console.log(products)
-
-    // const {
-    //     data,
-    //     fetchNextPage,
-    //     hasNextPage,
-    //     isFetchingNextPage,
-    // } = useInfiniteQuery({
-    //     queryKey: ["products", selectedSlug],
-    //     queryFn: ({ pageParam = 1 }) =>
-    //         fetchProducts({ pageParam, catalogId: selectedCategoryId }),
-    //     getNextPageParam: (lastPage, allPages) =>
-    //         allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
-    //     initialPageParam: 1,
-    //     enabled: !!selectedCategoryId || !selectedSlug,
-    // });
-
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (
-    //             window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-    //             hasNextPage &&
-    //             !isFetchingNextPage
-    //         ) {
-    //             fetchNextPage();
-    //         }
-    //     };
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => window.removeEventListener("scroll", handleScroll);
-    // }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
 
     return (
         <>
