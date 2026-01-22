@@ -2,7 +2,7 @@
 import { prisma } from '@/lib/prisma'
 import { unstable_cache } from 'next/cache'
 
-export const getCatalogs = unstable_cache(
+export const  getCatalogs = unstable_cache(
     async () => {
         return prisma.catalog.findMany({
             select: {
@@ -20,39 +20,6 @@ export const getCatalogs = unstable_cache(
     }
 )
 
-type ProductWhereInput = {
-    id?: number;
-};
-
-
-export function getProducts(catalogId: number | null) {
-    return unstable_cache(
-        async () => {
-            const where: ProductWhereInput = {}
-            if (catalogId) where.id = catalogId
-
-            return prisma.catalog.findMany({
-                where,
-                include: {
-                    products: {
-                        select: {
-                            id: true,
-                            title: true,
-                            image: true,
-                            price: true,
-                        },
-                        orderBy: { createdAt: 'asc' },
-                    },
-                },
-            })
-        },
-        ['products', catalogId?.toString() ?? 'all'],
-        {
-            revalidate: 300,
-            tags: ['products'],
-        }
-    )()
-}
 
 
 export async function createCatalog(data: { name: string; slug: string }) {

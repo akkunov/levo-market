@@ -1,7 +1,8 @@
 
 import Link from "next/link";
 import Head from "next/head";
-import {getCatalogs, getProducts} from "@/shared/catalog.service";
+import {getCatalogs} from "@/shared/catalog.service";
+import {getProducts} from "@/shared/products.service";
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
     const categories = await getCatalogs()
