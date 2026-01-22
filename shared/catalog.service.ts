@@ -15,21 +15,46 @@ export const getCatalogs = unstable_cache(
     },
     ['catalogs'],
     {
-        revalidate: 300,
+        revalidate: 900,
         tags: ['catalogs'],
     }
 )
 
-// export const getProducts = unstable_cache(
-//     async () => {
-//         return prisma.product.findMany()
-//     },
-//     ['products'],
-//     {
-//         revalidate: 300,
-//         tags: ['products'],
-//     }
-// )
+type ProductWhereInput = {
+    id?: number;
+};
+
+
+export function getProducts(catalogId: number | null) {
+    return unstable_cache(
+        async () => {
+            const where: ProductWhereInput = {}
+            if (catalogId) where.id = catalogId
+
+            return prisma.catalog.findMany({
+                where,
+                include: {
+                    products: {
+                        select: {
+                            id: true,
+                            title: true,
+                            image: true,
+                            price: true,
+                        },
+                        orderBy: { createdAt: 'asc' },
+                    },
+                },
+            })
+        },
+        ['products', catalogId?.toString() ?? 'all'],
+        {
+            revalidate: 300,
+            tags: ['products'],
+        }
+    )()
+}
+
+
 export async function createCatalog(data: { name: string; slug: string }) {
     return prisma.catalog.create({ data })
 }
