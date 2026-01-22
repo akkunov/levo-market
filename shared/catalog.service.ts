@@ -1,8 +1,8 @@
 // lib/services/catalog.service.ts
 import { prisma } from '@/lib/prisma'
-import { unstable_cache } from 'next/cache'
+import {cache} from "react";
 
-export const  getCatalogs = unstable_cache(
+export const  getCatalogs = cache(
     async () => {
         return prisma.catalog.findMany({
             select: {
@@ -12,11 +12,6 @@ export const  getCatalogs = unstable_cache(
             },
             orderBy: { name: 'asc' },
         })
-    },
-    ['catalogs'],
-    {
-        revalidate: 900,
-        tags: ['catalogs'],
     }
 )
 

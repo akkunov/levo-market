@@ -1,8 +1,9 @@
 import {unstable_cache} from "next/cache";
 import {prisma} from "@/lib/prisma";
+import {cache} from "react";
 
 export function getProduct(id: number) {
-   return unstable_cache(
+   return cache(
        async () => {
            return prisma.product.findUnique({
                where: { id: Number(id) },
@@ -12,11 +13,6 @@ export function getProduct(id: number) {
                },
 
            })
-       },
-       ['product', id.toString()],
-       {
-           revalidate: 900,
-           tags: ['product'],
        }
    )
 }

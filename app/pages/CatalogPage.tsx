@@ -2,16 +2,15 @@
 import Link from "next/link";
 import Head from "next/head";
 import {getCatalogs} from "@/shared/catalog.service";
-import {getProducts} from "@/shared/products.service";
+
+
+import {Suspense} from "react";
+import ProductsGrid from "@/app/components/cards/productsGrid/productsGrid";
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
     const categories = await getCatalogs()
     const selectedSlug = slug;
-
     const selectedCategory = categories.find((c) => c.slug === selectedSlug);
-    const selectedCategoryId = selectedCategory?.id ?? null;
-    const products = await getProducts(selectedCategoryId);
-
     return (
         <>
             <Head>
@@ -30,18 +29,19 @@ export default async function CatalogPage({ slug }: { slug?: string }) {
             {/* Breadcrumbs */}
             <nav aria-label="breadcrumb" className="my-4 text-sm text-gray-500 p-2">
                 <ol className="flex space-x-2">
-                    <li><Link href="/">Главная</Link> / </li>
+                    <li><Link href="/" prefetch>Главная</Link> / </li>
                     {selectedCategory && <li>{selectedCategory.name}</li>}
                 </ol>
             </nav>
 
-            <div className="grid grid-cols-12 gap-6 p-2">
+            <div className="grid grid-cols-12 gap-6 p-2 w-full">
                 {/* Фильтры */}
                 <aside className="col-span-12 md:col-span-3 border-r pr-4 space-y-4">
                     <h2 className="font-semibold text-lg mb-2">Категории</h2>
                     <ul className="space-y-2">
                         <li>
                             <Link
+                                prefetch
                                 href="/catalogs"
                                 className={`w-full block px-2 py-1 rounded ${!selectedSlug ? "bg-gray-200" : "hover:bg-gray-100"}`}
                             >
@@ -51,6 +51,7 @@ export default async function CatalogPage({ slug }: { slug?: string }) {
                         {categories.map((cat) => (
                             <li key={cat.id}>
                                 <Link
+                                    prefetch
                                     href={`/catalogs/${cat.slug}`}
                                     className={`w-full block px-2 py-1 rounded ${selectedSlug === cat.slug ? "bg-gray-200" : "hover:bg-gray-100"}`}
                                 >
@@ -60,40 +61,10 @@ export default async function CatalogPage({ slug }: { slug?: string }) {
                         ))}
                     </ul>
                 </aside>
-
-                {/* Товары */}
-                <main className="col-span-12 md:col-span-9">
-                    <h1 className="text-2xl font-bold mb-4">
-                        {selectedCategory ? selectedCategory.name : "Все товары"}
-                    </h1>
-
-                    <div className="flex flex-col gap-4">
-                        {products.map((item) => (
-                                <div className={`flex flex-col w-full`} key={item.id}>
-                                    <h2 className={`text-2xl m-2 font-medium`}>{item.name}</h2>
-                                    <div className={`grid grid-cols-2 gap-4 md:grid-cols-3 pl-4`}>
-                                        {
-                                            item.products?.map((p) => (
-                                                <Link href={`/catalogs/${selectedSlug ? `${selectedSlug}/${p.id}` : `all/${p.id}`}`} key={p.id}>
-                                                    <div className="border rounded-lg p-2 flex flex-col">
-                                                        <img
-                                                            src={p.image || "/noPoster.jpg"}
-                                                            alt={p.title}
-                                                            className="w-full h-40 object-contain rounded-md"
-                                                        />
-                                                        <h2 className="font-semibold">{p.title}</h2>
-                                                    </div>
-                                                </Link>
-                                            ))
-                                        }
-                                    </div>
-                                </div>
-
-                            ))
-
-                        }
-                    </div>
-                </main>
+                <Suspense>
+                    <ProductsGrid
+                        selectedCategory={selectedCategory}/>
+                </Suspense>
             </div>
         </>
     );

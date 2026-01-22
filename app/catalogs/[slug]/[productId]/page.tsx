@@ -103,6 +103,7 @@ export default async function Product({params}: {
                     {relatedProducts.map(item => (
                         <Link
                             key={item.id}
+                            prefetch
                             href={`/catalogs/${productItem.catalog?.slug}/${item.id}`}
                         >
                             <div className="border rounded-md p-2 flex flex-col items-center">

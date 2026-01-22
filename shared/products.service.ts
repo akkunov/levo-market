@@ -1,5 +1,6 @@
-import {unstable_cache} from "next/cache";
 import {prisma} from "@/lib/prisma";
+import {cache} from "react";
+import {unstable_cache} from "next/cache";
 
 
 
@@ -8,7 +9,7 @@ type ProductWhereInput = {
 };
 
 export function getProducts(catalogId: number | null) {
-    return unstable_cache(
+    return cache(
         async () => {
             const where: ProductWhereInput = {}
             if (catalogId) where.id = catalogId
@@ -28,12 +29,8 @@ export function getProducts(catalogId: number | null) {
                 },
             })
         },
-        ['products', catalogId?.toString() ?? 'all'],
-        {
-            revalidate: 300,
-            tags: ['products'],
-        }
-    )()
+
+    )
 }
 
 export function getRelatedProducts (catalogId: number, excludeProductId: number) {
