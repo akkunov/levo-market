@@ -12,6 +12,7 @@ export async function getProducts(catalogId: number | null) {
         where,
         include: {
             products: {
+                orderBy:{title:'asc'},
                 select: {
                     id: true,
                     title: true,

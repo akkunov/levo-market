@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import {revalidatePath} from "next/cache";
 
 // GET — продукт по ID
 export async function GET(
@@ -57,6 +58,8 @@ export async function PUT(
             data: valuesToCreate,
         });
     }
+    revalidatePath("/catalogs");
+    revalidatePath("/catalogs/all");
 
     return Response.json(updatedProduct);
 }
@@ -74,6 +77,7 @@ export async function DELETE(
     await prisma.productAttributeValue.deleteMany({ where: { productId: Number(id) } });
 
     const product = await prisma.product.delete({ where: { id: Number(id) } });
-
+    revalidatePath("/catalogs");
+    revalidatePath("/catalogs/all");
     return Response.json(product);
 }

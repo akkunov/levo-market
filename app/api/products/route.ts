@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
                         image: true,
                         price: true,
                     },
-                    orderBy: {createdAt: "asc"}
+                    orderBy: {createdAt: "desc"}
                 }},
 
         })
