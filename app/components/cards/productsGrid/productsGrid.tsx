@@ -9,8 +9,7 @@ interface Iprops {
 
 
 const ProductsGrid =  async ({ selectedCategory } : Iprops) => {
-    const products = await getProducts(selectedCategory?.id || null )();
-    console.log(products)
+    const products = await getProducts(selectedCategory?.id || null );
     return (
         <main className="col-span-12 md:col-span-9">
             <h1 className="text-2xl font-bold mb-4">

@@ -1,4 +1,3 @@
-import {unstable_cache} from "next/cache";
 import {prisma} from "@/lib/prisma";
 import {cache} from "react";
 

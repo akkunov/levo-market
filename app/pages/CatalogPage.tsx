@@ -3,7 +3,6 @@ import Link from "next/link";
 import Head from "next/head";
 import {getCatalogs} from "@/shared/catalog.service";
 
-
 import {Suspense} from "react";
 import ProductsGrid from "@/app/components/cards/productsGrid/productsGrid";
 
