@@ -7,7 +7,7 @@ import {Suspense} from "react";
 import ProductsGrid from "@/app/components/cards/productsGrid/productsGrid";
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
-    const categories = await getCatalogs()
+    const categories = await getCatalogs()()
     const selectedSlug = slug;
     const selectedCategory = categories.find((c) => c.slug === selectedSlug);
     return (

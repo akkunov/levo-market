@@ -2,29 +2,35 @@ import {prisma} from "@/lib/prisma";
 import {unstable_cache} from "next/cache";
 
 
+export const getProducts = (catalogId: number | null) =>
+    unstable_cache(
+        async () => {
+            const where = catalogId ? {id: catalogId} : {};
 
-export async function getProducts(catalogId: number | null) {
-    const where = catalogId
-        ? { id: catalogId }
-        : {}
-
-    return prisma.catalog.findMany({
-        where,
-        include: {
-            products: {
-                orderBy:{title:'asc'},
-                select: {
-                    id: true,
-                    title: true,
-                    image: true,
-                    price: true,
+            return prisma.catalog.findMany({
+                where,
+                include: {
+                    products: {
+                        orderBy: {title: "asc"},
+                        select: {
+                            id: true,
+                            title: true,
+                            image: true,
+                            price: true,
+                        },
+                    },
                 },
-            },
+            });
         },
-    })
-}
+        ['products', String(catalogId ?? 'all')], // 🔑 ключ кэша
+        {
+            revalidate: 300,          // 5 минут
+            tags: ['products'],       // для revalidateTag
+        }
+    );
 
-export function getRelatedProducts (catalogId: number, excludeProductId: number) {
+
+export function getRelatedProducts(catalogId: number, excludeProductId: number) {
     return unstable_cache(
         async () => {
             return prisma.product.findMany({
@@ -40,7 +46,7 @@ export function getRelatedProducts (catalogId: number, excludeProductId: number)
                 },
             })
         },
-        ['related-products',catalogId.toString(), excludeProductId.toString()],
+        ['related-products', catalogId.toString(), excludeProductId.toString()],
         {
             revalidate: 600, // 10 минут
             tags: ['related-products'],
