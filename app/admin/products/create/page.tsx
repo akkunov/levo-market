@@ -11,6 +11,7 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
+import {revalidatePath} from "next/cache";
 
 type Catalog = { id: number; name: string };
 type Attribute = {
@@ -103,6 +104,8 @@ export default function NewProductPage() {
             body: JSON.stringify(productData),
         });
 
+        revalidatePath("/catalogs");
+        revalidatePath("/catalogs/all");
         alert("Продукт создан ✅");
 
         // Сброс формы

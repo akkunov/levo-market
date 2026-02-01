@@ -1,5 +1,6 @@
 import {NextRequest} from "next/server";
 import {prisma} from "@/lib/prisma";
+import {revalidatePath} from "next/cache";
 
 
 type ProductWhereInput = {
@@ -63,5 +64,7 @@ export async function POST(req: Request) {
         },
         include: {catalog: true, attributes: {include: {attribute: true}}},
     });
+    revalidatePath("/catalogs");
+    revalidatePath("/catalogs/all");
     return Response.json(product);
 }
