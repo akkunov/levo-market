@@ -24,7 +24,6 @@ export function getProducts(catalogId: number | null) {
                             image: true,
                             price: true,
                         },
-                        orderBy: { createdAt: 'asc' },
                     },
                 },
             })
@@ -47,10 +46,6 @@ export function getRelatedProducts (catalogId: number, excludeProductId: number)
                     image: true,
                     price: true,
                 },
-                orderBy: {
-                    createdAt: 'desc',
-                },
-                take: 4,
             })
         },
         ['related-products',catalogId.toString(), excludeProductId.toString()],
