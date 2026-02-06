@@ -2,11 +2,75 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import Link from "next/link";
-import Head from "next/head";
+
 import Script from "next/script";
 import {getProduct} from "@/shared/product.service";
 import BackButton from "@/app/components/backButton/BackButton";
 import { getRelatedProducts} from "@/shared/products.service";
+import {Metadata} from "next";
+
+type PageProps = {
+    params: {
+        slug: string;
+        productId: string;
+    };
+};
+
+/**
+ * SEO + OG + Twitter
+ * КРИТИЧНО: абсолютный URL картинки товара
+ */
+export async function generateMetadata(
+    { params }: PageProps
+): Promise<Metadata> {
+    const productId = Number(params.productId);
+    const product = await getProduct(productId)();
+
+    if (!product) {
+        return {
+            title: "Товар не найден — LEVO",
+            description: "Товар не найден",
+        };
+    }
+
+    const title = `${product.title} — купить ${product.catalog?.name} LEVO в Бишкеке`;
+    const description = `Купить ${product.title} (${product.catalog?.name}) LEVO с доставкой и гарантией в Кыргызстане.`;
+
+    const canonicalUrl = `https://levo.kg/catalogs/${product.catalog?.slug}/${product.id}`;
+
+    const ogImage =
+        product.image?.startsWith("http")
+            ? product.image
+            : "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/banner.jpeg";
+
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title,
+            description,
+            url: canonicalUrl,
+            type: "website",
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: product.title,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title,
+            description,
+            images: [ogImage],
+        },
+    };
+}
 
 export default async function Product({params}: {
     params: Promise<{ productId: number }>;
@@ -19,18 +83,8 @@ export default async function Product({params}: {
     if (!productItem) return <Skeleton className="h-64 w-full" />;
     const catalogId = productItem.catalog.id
     const relatedProducts = await getRelatedProducts(catalogId, productItem.id)()
-    console.log(relatedProducts)
     return (
         <>
-            <Head>
-                <title>{productItem.title} — купить {productItem.catalog?.name} LEVO в Бишкеке</title>
-                <meta name="description" content={`Купить ${productItem.title} (${productItem.catalog?.name}) LEVO с доставкой и гарантией в Кыргызстане.`} />
-                <link rel="canonical" href={`https://levo.kg/catalogs/${productItem.catalog?.slug}/${productId}`} />
-                <meta property="og:title" content={`${productItem.title} — LEVO`} />
-                <meta property="og:description" content={`${productItem.catalog?.name} LEVO — купить с доставкой в Бишкеке.`} />
-                <meta property="og:image" content={productItem.image || '/blackLogo.svg'} />
-            </Head>
-
             {/* JSON-LD для Google */}
             <Script
                 id="product-jsonld"
