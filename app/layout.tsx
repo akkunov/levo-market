@@ -1,3 +1,4 @@
+
 // app/layout.tsx
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
         siteName: "Levo KG",
         images: [
             {
-                url: "/og-levo.jpg",
+                url: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg",
                 width: 1200,
                 height: 630,
                 alt: "Бытовая техника Levo в Кыргызстане",
@@ -49,9 +50,9 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Levo KG — купить бытовую технику в Кыргызстане",
         description: "Официальный сайт LEVO. Бытовая техника с гарантией и доставкой по всей стране.",
-        images: ["/og-levo.jpg"],
+        images: ["https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg"],
     },
-    icons: {icon: "/blackLogo.svg"},
+    icons: {icon: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg"},
 };
 
 export default function RootLayout({children}: { children: ReactNode }) {
@@ -81,7 +82,7 @@ export default function RootLayout({children}: { children: ReactNode }) {
                         "@type": "Organization",
                         "name": "LEVO",
                         "url": "https://levo.kg",
-                        "logo": "https://levo.kg/blackLogo.svg",
+                        "logo": "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg",
                         "sameAs": [
                             "https://www.instagram.com/levo_kg/",
                             "https://www.facebook.com/levo_kg/"

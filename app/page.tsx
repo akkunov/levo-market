@@ -15,7 +15,6 @@ export default function Home() {
           <section className="bg-[#EEEFF2] pb-8 p-2" id={'hero-catalog'}>
               <Catalog />
           </section>
-          {/*<UploadImage />*/}
           <Footer />
       </>
 
