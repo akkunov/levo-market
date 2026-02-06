@@ -10,10 +10,8 @@ import { getRelatedProducts} from "@/shared/products.service";
 import {Metadata} from "next";
 
 type PageProps = {
-    params: {
         slug: string;
-        productId: string;
-    };
+        productId: number;
 };
 
 /**
@@ -21,9 +19,9 @@ type PageProps = {
  * КРИТИЧНО: абсолютный URL картинки товара
  */
 export async function generateMetadata(
-    { params }: PageProps
+    { params }:{params: Promise<PageProps> }
 ): Promise<Metadata> {
-    const productId = Number(params.productId);
+    const {productId} =  await params;
     const product = await getProduct(productId)();
 
     if (!product) {
@@ -72,14 +70,12 @@ export async function generateMetadata(
     };
 }
 
-export default async function Product({params}: {
-    params: Promise<{ productId: number }>;
-}) {
+export default async function Product({params}:
+    { params: Promise<{ productId: number }>; }) {
 
     const { productId } = await params;
 
     const productItem = await getProduct(productId)()
-    console.log(productItem)
     if (!productItem) return <Skeleton className="h-64 w-full" />;
     const catalogId = productItem.catalog.id
     const relatedProducts = await getRelatedProducts(catalogId, productItem.id)()
