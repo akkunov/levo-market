@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         siteName: "Levo KG",
         images: [
             {
-                url: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg",
+                url: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/banner.jpeg",
                 width: 1200,
                 height: 630,
                 alt: "Бытовая техника Levo в Кыргызстане",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Levo KG — купить бытовую технику в Кыргызстане",
         description: "Официальный сайт LEVO. Бытовая техника с гарантией и доставкой по всей стране.",
-        images: ["https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg"],
+        images: ["https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/banner.jpeg"],
     },
     icons: {icon: "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg"},
 };
