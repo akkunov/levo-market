@@ -27,6 +27,7 @@ export interface Catalog {
     slug: string;
     parentId?: number | null;
     children?: Catalog[];
+    attributes?: CatalogAttribute[];
 }
 
 type productAttributes = {
