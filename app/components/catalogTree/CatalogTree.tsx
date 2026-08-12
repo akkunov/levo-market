@@ -11,15 +11,40 @@ export type Catalog = {
     children?: Catalog[];
 };
 
+interface CatalogTreeProps {
+    categories: Catalog[];
+    selectedSlug?: string;
+}
+
 export default function CatalogTree({
                                         categories,
                                         selectedSlug,
-                                    }: {
-    categories: Catalog[];
-    selectedSlug?: string;
-}) {
+                                    }: CatalogTreeProps) {
     return (
         <ul className="space-y-2">
+            {/* Все товары */}
+            <li>
+                <Link
+                    href="/catalogs"
+                    className={`flex items-center gap-2 rounded px-2 py-1 ${
+                        !selectedSlug
+                            ? "bg-gray-200 font-medium"
+                            : "hover:bg-gray-100"
+                    }`}
+                >
+                    <input
+                        type="radio"
+                        name="catalog"
+                        checked={!selectedSlug}
+                        readOnly
+                        className="h-4 w-4"
+                    />
+
+                    <span >Все товары</span>
+                </Link>
+            </li>
+
+            {/* Категории */}
             {categories.map((category) => (
                 <CatalogItem
                     key={category.id}
@@ -53,37 +78,61 @@ function CatalogItem({
                 className="flex items-center gap-2"
                 style={{ paddingLeft: `${level * 20}px` }}
             >
+                {/*{hasChildren ? (*/}
+                {/*    <button*/}
+                {/*        type="button"*/}
+                {/*        onClick={() => toggleCategory(category.id)}*/}
+                {/*        className="w-9 text-3xl text-gray-500 hover:text-black"*/}
+                {/*        aria-label={open ? "Свернуть" : "Развернуть"}*/}
+                {/*    >*/}
+                {/*        {open ? "−" : "+"}*/}
+                {/*    </button>*/}
+                {/*) : (*/}
+                {/*    <span className="w-9" />*/}
+                {/*)}*/}
                 {hasChildren ? (
-                    <button
-                        type="button"
-                        onClick={() => toggleCategory(category.id)}
-                        className="w-9 text-3xl text-gray-500 hover:text-black"
-                        aria-label={open ? "Свернуть" : "Развернуть"}
+                        <Link
+                            role={'button'}
+                            href={`/catalogs/${category.slug}`}
+                            onClick={() =>  toggleCategory(category.id)}
+                            className={`flex flex-1 items-center gap-2 rounded px-2 py-1 ${
+                                selected
+                                    ? "bg-gray-200 font-medium"
+                                    : "hover:bg-gray-100"
+                            }`}
+                        >
+                            <input
+                                type="radio"
+                                name="catalog"
+                                checked={selected}
+                                readOnly
+                                className="h-4 w-4"
+                            />
+
+                            <span>{category.name}</span>
+                        </Link>
+                ): (
+                    <Link
+                        role={'button'}
+                        href={`/catalogs/${category.slug}`}
+                        className={`flex flex-1 items-center gap-2 rounded px-2 py-1 ${
+                            selected
+                                ? "bg-gray-200 font-medium"
+                                : "hover:bg-gray-100"
+                        }`}
                     >
-                        {open ? "−" : "+"}
-                    </button>
-                ) : (
-                    <span className="w-9" />
+                        <input
+                            type="radio"
+                            name="catalog"
+                            checked={selected}
+                            readOnly
+                            className="h-4 w-4"
+                        />
+
+                        <span>{category.name}</span>
+                    </Link>
                 )}
 
-                <Link
-                    href={`/catalogs/${category.slug}`}
-                    className={`flex flex-1 items-center gap-2 rounded px-2 py-1 ${
-                        selected
-                            ? "bg-gray-200 font-medium"
-                            : "hover:bg-gray-100"
-                    }`}
-                >
-                    <input
-                        type="radio"
-                        name="catalog"
-                        checked={selected}
-                        readOnly
-                        className="h-4 w-4"
-                    />
-
-                    <span>{category.name}</span>
-                </Link>
             </div>
 
             <AnimatePresence initial={false}>

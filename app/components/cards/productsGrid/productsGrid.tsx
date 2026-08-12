@@ -13,12 +13,13 @@ const ProductsGrid = async ({ selectedCategory }: IProps) => {
     return (
         <main className="col-span-12 md:col-span-9">
             <h1 className="mb-4 text-2xl font-bold">
-                {selectedCategory ? selectedCategory.name : "Все товары"}
+                {selectedCategory ? '' : "Все товары"}
             </h1>
 
             <div className="flex flex-col gap-4">
                 {products.map((item) => (
                     <div key={item.id} className="flex w-full flex-col">
+                        <h2 className="mb-2 text-lg font-semibold">{item.name}</h2>
                         <div className="grid grid-cols-2 gap-4 pl-4 md:grid-cols-3">
                             {item.products?.map((product) => (
                                 <Link

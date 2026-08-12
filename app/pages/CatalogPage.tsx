@@ -37,7 +37,6 @@ function findCategory(
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
     const categories = await getCatalogs()()
-    console.log(categories)
     const selectedSlug = slug;
     const selectedCategory = findCategory(
         categories,
@@ -71,19 +70,12 @@ export default async function CatalogPage({ slug }: { slug?: string }) {
                 <aside className="col-span-12 md:col-span-3 border-r pr-4 space-y-4">
                     <h2 className="font-semibold text-lg mb-2">Категории</h2>
                     <ul className="space-y-2">
-
                         <li>
-                            <Link href="/catalogs">
-                                Все
-                            </Link>
+                            <CatalogTree
+                                categories={categories}
+                                selectedSlug={selectedSlug}
+                            />
                         </li>
-
-
-                        <CatalogTree
-                            categories={categories}
-                            selectedSlug={selectedSlug}
-                        />
-
                     </ul>
                 </aside>
                 <Suspense>
