@@ -21,12 +21,13 @@ export type CatalogAttribute = {
     catalogAttributeId: number;
 };
 
-export type Catalog = {
+export interface Catalog {
     id: number;
     name: string;
     slug: string;
-    attributes: CatalogAttribute[];
-};
+    parentId?: number | null;
+    children?: Catalog[];
+}
 
 type productAttributes = {
     id: number;

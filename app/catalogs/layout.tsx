@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import {Header} from "@/app/components/header/Header";
 import Container from "@/app/components/container/Container";
 import {Metadata} from "next";
+import {CatalogProvider} from "@/app/components/catalogTree/CatalogProvider";
 
 interface CatalogLayoutProps {
     children: ReactNode;
@@ -35,14 +36,14 @@ export const metadata: Metadata = {
 export default function CatalogLayout({ children }: CatalogLayoutProps) {
 
     return (
-        <>
+        <CatalogProvider>
             <Header/>
                 <main>
                     <Container className={`mx-auto pt-16`}>
                         {children}
                     </Container>
                 </main>
-        </>
+        </CatalogProvider>
 
     );
 }

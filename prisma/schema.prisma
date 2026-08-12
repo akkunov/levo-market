@@ -16,14 +16,21 @@ model User {
 }
 
 model Catalog {
-  id         Int                @id @default(autoincrement())
-  name       String
-  slug       String             @unique
+  id   Int    @id @default(autoincrement())
+  name String
+  slug String @unique
+
+  parentId Int?
+
+  parent Catalog? @relation("CatalogTree", fields: [parentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  children Catalog[] @relation("CatalogTree")
+
   products   Product[]
-  attributes CatalogAttribute[] // связь с атрибутами через промежуточную таблицу
+  attributes CatalogAttribute[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt // <- добавили дефолт
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Attribute {

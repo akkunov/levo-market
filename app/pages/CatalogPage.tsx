@@ -3,13 +3,46 @@ import Link from "next/link";
 import Head from "next/head";
 import {getCatalogs} from "@/shared/catalog.service";
 
-import {Suspense} from "react";
+import React, {Suspense} from "react";
 import ProductsGrid from "@/app/components/cards/productsGrid/productsGrid";
+import CatalogTree from "@/app/components/catalogTree/CatalogTree";
+import {Catalog} from "@/app/admin/types";
+
+
+function findCategory(
+    categories: Catalog[],
+    slug?: string
+): Catalog | undefined {
+
+    if (!slug) {
+        return undefined;
+    }
+    for (const category of categories) {
+        if (category.slug === slug) {
+            return category;
+        }
+        if (category.children?.length) {
+            const found = findCategory(
+                category.children,
+                slug
+            );
+            if (found) {
+                return found;
+            }
+        }
+    }
+    return undefined;
+}
+
 
 export default async function CatalogPage({ slug }: { slug?: string }) {
     const categories = await getCatalogs()()
+    console.log(categories)
     const selectedSlug = slug;
-    const selectedCategory = categories.find((c) => c.slug === selectedSlug);
+    const selectedCategory = findCategory(
+        categories,
+        selectedSlug
+    );
     return (
         <>
             <Head>
@@ -38,26 +71,19 @@ export default async function CatalogPage({ slug }: { slug?: string }) {
                 <aside className="col-span-12 md:col-span-3 border-r pr-4 space-y-4">
                     <h2 className="font-semibold text-lg mb-2">Категории</h2>
                     <ul className="space-y-2">
+
                         <li>
-                            <Link
-                                prefetch
-                                href="/catalogs"
-                                className={`w-full block px-2 py-1 rounded ${!selectedSlug ? "bg-gray-200" : "hover:bg-gray-100"}`}
-                            >
+                            <Link href="/catalogs">
                                 Все
                             </Link>
                         </li>
-                        {categories.map((cat) => (
-                            <li key={cat.id}>
-                                <Link
-                                    prefetch
-                                    href={`/catalogs/${cat.slug}`}
-                                    className={`w-full block px-2 py-1 rounded ${selectedSlug === cat.slug ? "bg-gray-200" : "hover:bg-gray-100"}`}
-                                >
-                                    {cat.name}
-                                </Link>
-                            </li>
-                        ))}
+
+
+                        <CatalogTree
+                            categories={categories}
+                            selectedSlug={selectedSlug}
+                        />
+
                     </ul>
                 </aside>
                 <Suspense>

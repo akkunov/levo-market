@@ -1,17 +1,41 @@
-import {prisma} from "@/lib/prisma";
-import {unstable_cache} from "next/cache";
+import { prisma } from "@/lib/prisma";
+import { unstable_cache } from "next/cache";
 
+type Catalog = {
+    id: number;
+    children?: Catalog[];
+};
 
-export const getProducts = (catalogId: number | null) =>
+function getCatalogIds(catalog: Catalog): number[] {
+    return [
+        catalog.id,
+        ...(catalog.children?.flatMap(getCatalogIds) ?? []),
+    ];
+}
+
+export const getProducts = (
+    catalog: Catalog | null
+) =>
     unstable_cache(
         async () => {
-            const where = catalogId ? {id: catalogId} : {};
+            const catalogIds = catalog
+                ? getCatalogIds(catalog)
+                : null;
 
             return prisma.catalog.findMany({
-                where,
+                where: catalogIds
+                    ? {
+                        id: {
+                            in: catalogIds,
+                        },
+                    }
+                    : undefined,
+
                 include: {
                     products: {
-                        orderBy: {title: "asc"},
+                        orderBy: {
+                            title: "asc",
+                        },
                         select: {
                             id: true,
                             title: true,
@@ -20,23 +44,36 @@ export const getProducts = (catalogId: number | null) =>
                         },
                     },
                 },
+
+                orderBy: {
+                    name: "asc",
+                },
             });
         },
-        ['products', String(catalogId ?? 'all')], // 🔑 ключ кэша
+        [
+            "products",
+            catalog
+                ? String(catalog.id)
+                : "all",
+        ],
         {
-            revalidate: 300,          // 5 минут
-            tags: ['products'],       // для revalidateTag
+            revalidate: 300,
+            tags: ["products"],
         }
     );
 
-
-export function getRelatedProducts(catalogId: number, excludeProductId: number) {
+export function getRelatedProducts(
+    catalogId: number,
+    excludeProductId: number
+) {
     return unstable_cache(
         async () => {
             return prisma.product.findMany({
                 where: {
                     catalogId,
-                    NOT: {id: excludeProductId},
+                    NOT: {
+                        id: excludeProductId,
+                    },
                 },
                 select: {
                     id: true,
@@ -44,12 +81,16 @@ export function getRelatedProducts(catalogId: number, excludeProductId: number) 
                     image: true,
                     price: true,
                 },
-            })
+            });
         },
-        ['related-products', catalogId.toString(), excludeProductId.toString()],
+        [
+            "related-products",
+            catalogId.toString(),
+            excludeProductId.toString(),
+        ],
         {
-            revalidate: 600, // 10 минут
-            tags: ['related-products'],
+            revalidate: 600,
+            tags: ["related-products"],
         }
-    )
+    );
 }

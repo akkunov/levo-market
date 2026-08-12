@@ -7,25 +7,36 @@ export const  getCatalogs =() =>
     unstable_cache(
         async () => {
             return prisma.catalog.findMany({
+                where: {
+                    parentId: null,
+                },
                 select: {
                     id: true,
                     name: true,
                     slug: true,
+
+                    children: {
+                        select: {
+                            id: true,
+                            name: true,
+                            slug: true,
+                            parentId: true,
+                        },
+                        orderBy: {
+                            name: 'asc',
+                        },
+                    },
                 },
-                orderBy: { name: 'asc' },
+
+                orderBy: {
+                    name: 'asc',
+                },
             })
         },
         ['catalogs'],
         {
-            revalidate: 300,
+            revalidate: 60,
             tags: ['catalogs'],
         }
 
     )
-
-
-
-
-export async function createCatalog(data: { name: string; slug: string }) {
-    return prisma.catalog.create({ data })
-}
