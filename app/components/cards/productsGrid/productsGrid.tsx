@@ -19,10 +19,6 @@ const ProductsGrid = async ({ selectedCategory }: IProps) => {
             <div className="flex flex-col gap-4">
                 {products.map((item) => (
                     <div key={item.id} className="flex w-full flex-col">
-                        <h2 className="m-2 text-2xl font-medium">
-                            {item.name}
-                        </h2>
-
                         <div className="grid grid-cols-2 gap-4 pl-4 md:grid-cols-3">
                             {item.products?.map((product) => (
                                 <Link
