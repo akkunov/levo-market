@@ -58,14 +58,14 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: { children: ReactNode }) {
     return (
         <html lang="ru">
-            <head>
-                {/* Google Analytics 4 */}
-                <Script
-                    strategy="afterInteractive"
-                    src="https://www.googletagmanager.com/gtag/js?id=G-0T308V6RFM"
-                />
-                <Script id="google-analytics" strategy="afterInteractive">
-                    {`
+        <head>
+            {/* Google Analytics 4 */}
+            <Script
+                strategy="afterInteractive"
+                src="https://www.googletagmanager.com/gtag/js?id=G-0T308V6RFM"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+                {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -73,38 +73,39 @@ export default function RootLayout({children}: { children: ReactNode }) {
                   page_path: window.location.pathname,
                 });
               `}
-                </Script>
+            </Script>
 
-                {/* JSON-LD — организация и сайт */}
-                <Script id="json-ld" type="application/ld+json" strategy="afterInteractive">
-                    {JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Organization",
-                        "name": "LEVO",
-                        "url": "https://levo.kg",
-                        "logo": "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg",
-                        "sameAs": [
-                            "https://www.instagram.com/levo_kg/",
-                            "https://www.facebook.com/levo_kg/"
-                        ]
-                    })}
-                </Script>
+            {/* JSON-LD — организация и сайт */}
+            <Script id="json-ld" type="application/ld+json" strategy="afterInteractive">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Organization",
+                    "name": "LEVO",
+                    "url": "https://levo.kg",
+                    "logo": "https://pub-70284751a4884f90bf14b3714880cdef.r2.dev/uploads/blackLogo.svg",
+                    "sameAs": [
+                        "https://www.instagram.com/levo_kg/",
+                        "https://www.facebook.com/levo_kg/"
+                    ]
+                })}
+            </Script>
 
-                <Script id="json-ld-website" type="application/ld+json" strategy="afterInteractive">
-                    {JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "WebSite",
-                        "url": "https://levo.kg",
-                        "name": "LEVO — бытовая техника",
-                        "potentialAction": {
-                            "@type": "SearchAction",
-                            "target": "https://levo.kg/search?q={search_term_string}",
-                            "query-input": "required name=search_term_string"
-                        }
-                    })}
-                </Script>
-            </head>
-            <body className={`${geistSans.variable} ${geistMono.variable} ${porscheNext.variable} antialiased`}>
+            <Script id="json-ld-website" type="application/ld+json" strategy="afterInteractive">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "WebSite",
+                    "url": "https://levo.kg",
+                    "name": "LEVO — бытовая техника",
+                    "potentialAction": {
+                        "@type": "SearchAction",
+                        "target": "https://levo.kg/search?q={search_term_string}",
+                        "query-input": "required name=search_term_string"
+                    }
+                })}
+            </Script>
+            <meta name="msvalidate.01" content="DAF41B51D15C7B58CAB75E311E63F04F"/>
+        </head>
+        <body className={`${geistSans.variable} ${geistMono.variable} ${porscheNext.variable} antialiased`}>
                 {children}
             </body>
         </html>
